@@ -7,7 +7,7 @@
     <authorUrl>https://github.com/helionogueir</authorUrl>
     <copyright>Copyright (c) 2017 Helio de Paula Nogueira</copyright>
     <license>MIT License</license>
-    <version>2017.09.01</version>
+    <version>2017.09.05</version>
     <description>COM_ATTENDANCELIST_DESCRIPTION</description>
     <install>
         <sql>
@@ -33,7 +33,7 @@
         <menu link="option=com_attendancelist">COM_ATTENDANCELIST_MENU</menu>
         <submenu>
             <menu link="option=com_attendancelist">COM_ATTENDANCELIST_MENU_LISTS</menu>
-            <menu link="option=com_attendancelist" view="categories">COM_ATTENDANCELIST_MENU_CATEGORIES</menu>
+            <menu link="option=com_attendancelist&amp;view=categories" view="categories">COM_ATTENDANCELIST_MENU_CATEGORIES</menu>
             <menu link="option=com_attendancelist" view="students">COM_ATTENDANCELIST_MENU_STUDENTS</menu>
         </submenu>
         <files folder="admin">
@@ -49,6 +49,8 @@
         <languages folder="admin/language">
             <language tag="en-GB">en-GB/en-GB.com_attendancelist.ini</language>
             <language tag="en-GB">en-GB/en-GB.com_attendancelist.sys.ini</language>
+			<language tag="pt-BR">pt-BR/pt-BR.com_attendancelist.ini</language>
+            <language tag="pt-BR">pt-BR/pt-BR.com_attendancelist.sys.ini</language>
         </languages>
     </administration>
 
