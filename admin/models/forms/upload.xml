@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset>
+        <field
+            name="id"
+            type="hidden" />
+        <field
+            name="list"
+            type="file"
+            label="COM_ATTENDANCELIST_LABEL_LIST"
+            description="COM_ATTENDANCELIST_LABEL_LIST_DESC"
+            size="10"
+            accept="text/csv" />
+    </fieldset>
+</form>

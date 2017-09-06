@@ -37,7 +37,7 @@
         <submenu>
             <menu link="option=com_attendancelist">COM_ATTENDANCELIST_MENU_LISTS</menu>
             <menu link="option=com_attendancelist&amp;view=categories" view="categories">COM_ATTENDANCELIST_MENU_CATEGORIES</menu>
-            <menu link="option=com_attendancelist" view="students">COM_ATTENDANCELIST_MENU_STUDENTS</menu>
+            <menu link="option=com_attendancelist&amp;view=categorytargets" view="categorytargets">COM_ATTENDANCELIST_MENU_STUDENTS</menu>
         </submenu>
         <files folder="admin">
             <filename>index.html</filename>
