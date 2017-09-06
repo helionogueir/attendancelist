@@ -15,26 +15,6 @@ CREATE TABLE IF NOT EXISTS `#__attendancelist` (
 COLLATE='utf8_unicode_ci'
 ENGINE=InnoDB;
 
-/* Attendance List Behavior */
-DROP TABLE IF EXISTS `#__attendancelist_behavior`;
-CREATE TABLE IF NOT EXISTS `#__attendancelist_behavior` (
-	`id` BIGINT(18) NOT NULL AUTO_INCREMENT,
-	`attendancelist_id` BIGINT(18) NOT NULL,
-	`level` TINYINT(2) NOT NULL,
-	`label` VARCHAR(255) NOT NULL,
-	`obs` TEXT NULL,
-	`created` DATETIME NOT NULL,
-	`modified` DATETIME NOT NULL,
-	`published` TINYINT(1) NOT NULL DEFAULT '1',
-    PRIMARY KEY (`id`),
-    INDEX `ind_attendancelist_behavior_attendancelist_id` (`attendancelist_id`),
-    INDEX `ind_attendancelist_behavior_level` (`level`),
-    INDEX `ind_attendancelist_behavior_label` (`label`),
-    INDEX `ind_attendancelist_behavior_published` (`published`)
-)
-COLLATE='utf8_unicode_ci'
-ENGINE=InnoDB;
-
 /* Attendance List Category */
 DROP TABLE IF EXISTS `#__attendancelist_category`;
 CREATE TABLE IF NOT EXISTS `#__attendancelist_category` (
@@ -82,6 +62,7 @@ DROP TABLE IF EXISTS `#__attendancelist_quiz`;
 CREATE TABLE IF NOT EXISTS `#__attendancelist_quiz` (
 	`id` BIGINT(18) NOT NULL AUTO_INCREMENT,
 	`attendancelist_id` BIGINT(18) NOT NULL,
+	`position` TINYINT(4) NOT NULL,
 	`type` VARCHAR(25) NOT NULL,
 	`question` TEXT NOT NULL,
 	`created` DATETIME NOT NULL,
@@ -89,6 +70,7 @@ CREATE TABLE IF NOT EXISTS `#__attendancelist_quiz` (
 	`published` TINYINT(1) NOT NULL DEFAULT '1',
     PRIMARY KEY (`id`),
     INDEX `ind_attendancelist_quiz_attendancelist_id` (`attendancelist_id`),
+    INDEX `ind_attendancelist_quiz_position` (`position`),
     INDEX `ind_attendancelist_quiz_type` (`type`)
 )
 COLLATE='utf8_unicode_ci'

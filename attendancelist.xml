@@ -52,7 +52,7 @@
         <languages folder="admin/language">
             <language tag="en-GB">en-GB/en-GB.com_attendancelist.ini</language>
             <language tag="en-GB">en-GB/en-GB.com_attendancelist.sys.ini</language>
-			<language tag="pt-BR">pt-BR/pt-BR.com_attendancelist.ini</language>
+            <language tag="pt-BR">pt-BR/pt-BR.com_attendancelist.ini</language>
             <language tag="pt-BR">pt-BR/pt-BR.com_attendancelist.sys.ini</language>
         </languages>
     </administration>

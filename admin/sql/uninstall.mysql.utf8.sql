@@ -1,9 +1,6 @@
 /* Attendance List */
 DROP TABLE IF EXISTS `#__attendancelist`;
 
-/* Attendance List Behavior */
-DROP TABLE IF EXISTS `#__attendancelist_behavior`;
-
 /* Attendance List Category */
 DROP TABLE IF EXISTS `#__attendancelist_category`;
 
