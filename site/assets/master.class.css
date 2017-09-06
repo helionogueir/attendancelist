@@ -1,0 +1,10 @@
+
+.attendancelist .attendancelist-title {
+    color: #a0af46;
+}
+
+.attendancelist .attendancelist-panel-access {
+    height: 300px;
+    max-height: 300px;
+    min-height: 300px;
+}
