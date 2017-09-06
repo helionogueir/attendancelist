@@ -30,22 +30,19 @@ class AttendanceListModelCategoryTargets extends JModelList {
     protected function getListQuery() {
         $db = JFactory::getDbo();
         $query = $db->getQuery(true);
-        $query->select(implode(",", $this->_fields))
-                ->from($db->quoteName('#__attendancelist_category_target'));
-        $search = $this->getState('filter.search');
-        if (!empty($search)) {
-            $like = $db->quote('%' . $search . '%');
-            $query->where('name LIKE ' . $like);
-        }
-        $published = $this->getState('filter.published');
-        if (is_numeric($published)) {
-            $query->where('published = ' . (int) $published);
-        } elseif ($published === '') {
-            $query->where('(published IN (0, 1))');
-        }
-        $orderCol = $this->state->get('list.ordering', 'id');
-        $orderDirn = $this->state->get('list.direction', 'asc');
-        $query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
+
+        $query
+            ->select($db->quoteName('T.ID', 'id'))
+            ->select($db->quoteName('C.code', 'code_categoria'))
+            ->select($db->quoteName('C.name', 'categoria'))
+            ->select($db->quoteName('T.code', 'code_target'))
+            ->select($db->quoteName('T.title', 'title'))
+            ->select($db->quoteName('T.obs', 'obs'))
+            ->select($db->quoteName('T.published', 'published'))
+            ->from($db->quoteName('#__attendancelist_category_target', 'T'))
+            ->join('INNER', $db->quoteName('#__attendancelist_category', 'C') . ' ON ' . $db->quoteName('T.category_id') . ' = ' . $db->quoteName('C.id'))
+            ->where('(T.published IN (0,1))')
+            ->order('T.code ASC');
         return $query;
     }
 

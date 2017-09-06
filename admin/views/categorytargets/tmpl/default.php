@@ -22,8 +22,8 @@
                     <tr>
                         <td><?php echo $this->pagination->getRowOffset($i); ?></td>
                         <td><?php echo JHtml::_('grid.id', $i, $row->id); ?></td>
-                        <td><?php echo $row->code; ?></td>
-                        <td><?php echo $row->category_id; ?></td>
+                        <td><?php echo $row->code_target; ?></td>
+                        <td><?php echo $row->categoria; ?></td>
                         <td><a href="<?php echo $link; ?>"><?php echo $row->title; ?></a></td>
                         <td><?php echo $row->obs; ?></td>
                         <td align="center"><?php echo JHtml::_('jgrid.published', $row->published, $i, 'categorytargets.', true, 'cb'); ?></td>
