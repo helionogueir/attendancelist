@@ -7,7 +7,7 @@ defined('_JEXEC') or die('Restricted access');
  * @author William Douglas da Silva <williamds.silva@gmail.com>
  * @version 2017.09.04
  */
-class AttendanceListViewCategory extends JViewLegacy {
+class AttendanceListViewCategoryTarget extends JViewLegacy {
 
     protected $form = null;
 
@@ -30,22 +30,20 @@ class AttendanceListViewCategory extends JViewLegacy {
         $input->set('hidemainmenu', true);
         $isNew = ($this->item->id == 0);
         if ($isNew) {
-            $title = JText::_('COM_ATTENDANCELIST_FUNCTIONALITY_NEW_CATEGORIE');
+            $title = JText::_('COM_ATTENDANCELIST_FUNCTIONALITY_NEW_CATEGORIE_TARGET');
         } else {
-            $title = JText::_('COM_ATTENDANCELIST_FUNCTIONALITY_EDIT_CATEGORIE');
+            $title = JText::_('COM_ATTENDANCELIST_FUNCTIONALITY_EDIT_CATEGORIE_TARGET');
         }
-        JToolbarHelper::title($title, 'category');
-        JToolbarHelper::save('category.save');
-        JToolbarHelper::cancel(
-                'category.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE'
-        );
+        JToolbarHelper::title($title, 'categorytarget');
+        JToolbarHelper::save('categorytarget.save');
+        JToolbarHelper::cancel('categorytarget.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
     }
 
     protected function setDocument() {
         $isNew = ($this->item->id < 1);
         $document = JFactory::getDocument();
-        $document->setTitle($isNew ? JText::_('COM_ATTENDANCELIST_CATEGORIE_CREATING') :
-                        JText::_('COM_ATTENDANCELIST_CATEGORIE_EDITING'));
+        $document->setTitle($isNew ? JText::_('COM_ATTENDANCELIST_CATEGORIE_TARGET_CREATING') :
+                        JText::_('COM_ATTENDANCELIST_CATEGORIE_TARGET_EDITING'));
     }
 
 }

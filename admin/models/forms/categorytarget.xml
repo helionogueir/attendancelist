@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset>
+        <field
+            name="id"
+            type="hidden" />
+        <field
+            name="code"
+            type="text"
+            label="COM_ATTENDANCELIST_LABEL_CODE"
+            description="COM_ATTENDANCELIST_LABEL_CODE_DESC"
+            size="45"
+            class="inputbox"
+            default="" />
+		<field
+            name="category_id"
+            type="text"
+            label="COM_ATTENDANCELIST_LABEL_CATEGORIE"
+            description="COM_ATTENDANCELIST_LABEL_CATEGORIE_DESC"
+            size="45"
+            class="inputbox"
+            default="" />
+        <field
+            name="title"
+            type="text"
+            label="COM_ATTENDANCELIST_FUNCTIONALITY_CATEGORY_TARGET_TITLE"
+            description="COM_ATTENDANCELIST_FUNCTIONALITY_CATEGORY_TARGET_TITLE_DESC"
+            size="255"
+            class="inputbox"
+            default="" />
+		<field
+            name="obs"
+            type="text"
+            label="COM_ATTENDANCELIST_LABEL_OBS"
+            description="COM_ATTENDANCELIST_LABEL_OBS_DESC"
+            size="255"
+            class="inputbox"
+            default="" />
+    </fieldset>
+</form>
