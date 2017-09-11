@@ -1,4 +1,21 @@
 
-.attendancelist .attendancelist-input-text {
+.attendancelist .attendancelist-panel {
+    padding: 20px 40px;
+}
+.attendancelist .attendancelist-input-group {
     width: 100%;
+}
+.attendancelist .attendancelist-input-group label {
+    font-size: 1.1em;
+}
+.attendancelist .attendancelist-input-group label small {
+    color: gray;
+    font-weight: bold;
+}
+.attendancelist input[type='text'].attendancelist-input-text {
+    width: 100%;
+}
+.attendancelist textarea.attendancelist-input-textarea {
+    resize: vertical;
+    min-height: 200px;
 }

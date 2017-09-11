@@ -71,6 +71,7 @@ CREATE TABLE IF NOT EXISTS `#__attendancelist_quiz` (
     PRIMARY KEY (`id`),
     INDEX `ind_attendancelist_quiz_attendancelist_id` (`attendancelist_id`),
     INDEX `ind_attendancelist_quiz_position` (`position`),
+    UNIQUE INDEX `unq_attendancelist_quiz_position` (`attendancelist_id`, `position`),
     INDEX `ind_attendancelist_quiz_type` (`type`)
 )
 COLLATE='utf8_unicode_ci'
@@ -81,12 +82,15 @@ DROP TABLE IF EXISTS `#__attendancelist_quiz_alternative`;
 CREATE TABLE IF NOT EXISTS `#__attendancelist_quiz_alternative` (
 	`id` BIGINT(18) NOT NULL AUTO_INCREMENT,
 	`quiz_id` BIGINT(18) NOT NULL,
+	`position` TINYINT(4) NOT NULL,
 	`alternative` TEXT NOT NULL,
 	`created` DATETIME NOT NULL,
 	`modified` DATETIME NOT NULL,
 	`published` TINYINT(1) NOT NULL DEFAULT '1',
     PRIMARY KEY (`id`),
-    INDEX `ind_attendancelist_quiz_quiz_id` (`quiz_id`)
+    INDEX `ind_attendancelist_quiz_alternative_quiz_id` (`quiz_id`),
+    INDEX `ind_attendancelist_quiz_alternative_position` (`position`),
+    UNIQUE INDEX `unq_attendancelist_quiz_alternative_position` (`quiz_id`, `position`)
 )
 COLLATE='utf8_unicode_ci'
 ENGINE=InnoDB;

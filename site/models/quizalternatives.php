@@ -3,18 +3,17 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Attendance List Model Quizes
+ * Attendance List Model Quiz Alternatives
  * @author Helio Nogueira <helio.nogueir@gmail.com>
  * @version 2017.09.01
  */
-class AttendanceListModelQuizes extends JModelItem {
+class AttendanceListModelQuizAlternatives extends JModelItem {
 
     private $_fields = Array(
         'id',
-        'attendancelist_id',
+        'quiz_id',
         'position',
-        'type',
-        'question',
+        'alternative',
         'created',
         'modified',
         'published'
@@ -27,15 +26,15 @@ class AttendanceListModelQuizes extends JModelItem {
         parent::__construct($config);
     }
 
-    public function getQuizesByAttendancelistId($attendancelist_id) {
+    public function getAltenativesByQuizId($quiz_id) {
         $data = Array();
-        if (!empty($attendancelist_id)) {
+        if (!empty($quiz_id)) {
             $db = JFactory::getDbo();
             $query = $db->getQuery(true);
             $query->select(implode(",", $this->_fields))
-                    ->from($db->quoteName('#__attendancelist_quiz'));
+                    ->from($db->quoteName('#__attendancelist_quiz_alternative'));
             $query->where('published = 1');
-            $query->where("attendancelist_id = '{$attendancelist_id}'");
+            $query->where("quiz_id = '{$quiz_id}'");
             $orderCol = $this->state->get('list.ordering', 'position');
             $orderDirn = $this->state->get('list.direction', 'asc');
             $query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
