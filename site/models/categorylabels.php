@@ -3,18 +3,17 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Attendance List Model Categories
+ * Attendance List Model Category Labels
  * @author Helio Nogueira <helio.nogueir@gmail.com>
  * @version 2017.09.01
  */
-class AttendanceListModelCategories extends JModelItem {
+class AttendanceListModelCategoryLabels extends JModelItem {
 
     private $_fields = Array(
         'id',
         'attendancelist_id',
-        'code',
-        'parent',
-        'name',
+        'level',
+        'title',
         'obs',
         'created',
         'modified',
@@ -28,19 +27,16 @@ class AttendanceListModelCategories extends JModelItem {
         parent::__construct($config);
     }
 
-    public function findCategoriesByNameAndParent($attendancelist_id, $search, $parent = '0') {
+    public function getLabelByAttendancelistId($attendancelist_id) {
         $data = Array();
-        $parent = (!empty($parent)) ? $parent : '0';
-        if (!empty($attendancelist_id) && !empty($search)) {
+        if (!empty($attendancelist_id)) {
             $db = JFactory::getDbo();
             $query = $db->getQuery(true);
             $query->select(implode(",", $this->_fields))
-                    ->from($db->quoteName('#__attendancelist_category'));
+                    ->from($db->quoteName('#__attendancelist_category_label'));
             $query->where('published = 1');
             $query->where("attendancelist_id = '{$attendancelist_id}'");
-            $query->where('name LIKE ' . $db->quote('%' . $search . '%'));
-            $query->where("parent = '{$parent}'");
-            $orderCol = $this->state->get('list.ordering', 'id');
+            $orderCol = $this->state->get('list.ordering', 'level');
             $orderDirn = $this->state->get('list.direction', 'asc');
             $query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
             $db->setQuery($query);

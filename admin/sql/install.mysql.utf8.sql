@@ -42,14 +42,15 @@ DROP TABLE IF EXISTS `#__attendancelist_category_label`;
 CREATE TABLE IF NOT EXISTS `#__attendancelist_category_label` (
 	`id` BIGINT(18) NOT NULL AUTO_INCREMENT,
 	`attendancelist_id` BIGINT(18) NOT NULL,
-	`parent_level` BIGINT(18) NULL DEFAULT NULL,
+	`level` BIGINT(18) NULL DEFAULT NULL,
+	`title` VARCHAR(100) NOT NULL,
 	`obs` TEXT NULL,
 	`created` DATETIME NOT NULL,
 	`modified` DATETIME NOT NULL,
 	`published` TINYINT(1) NOT NULL DEFAULT '1',
     PRIMARY KEY (`id`),
     INDEX `ind_attendancelist_category_label_attendancelist_id` (`attendancelist_id`),
-    INDEX `ind_attendancelist_category_label_parent_level` (`parent_level`),
+    INDEX `ind_attendancelist_category_label_level` (`level`),
     INDEX `ind_attendancelist_category_label_published` (`published`)
 )
 COLLATE='utf8_unicode_ci'
@@ -83,6 +84,7 @@ CREATE TABLE IF NOT EXISTS `#__attendancelist_quiz` (
 	`position` TINYINT(4) NOT NULL,
 	`type` VARCHAR(25) NOT NULL,
 	`question` TEXT NOT NULL,
+	`obs` TEXT NULL,
 	`created` DATETIME NOT NULL,
 	`modified` DATETIME NOT NULL,
 	`published` TINYINT(1) NOT NULL DEFAULT '1',

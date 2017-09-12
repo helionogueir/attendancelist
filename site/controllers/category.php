@@ -8,5 +8,5 @@ defined('_JEXEC') or die('Restricted access');
  * @version 2017.09.01
  */
 class AttendanceListControllerCategory extends JController {
-    
+
 }

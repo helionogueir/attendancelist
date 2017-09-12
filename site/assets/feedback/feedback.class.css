@@ -12,6 +12,9 @@
     color: gray;
     font-weight: bold;
 }
+.attendancelist .attendancelist-input-group p {
+    color: #535353;
+}
 .attendancelist input[type='text'].attendancelist-input-text {
     width: 100%;
 }

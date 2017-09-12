@@ -11,10 +11,8 @@ $rowOpen = false;
         <?php if (!empty($this->items)) : ?>
             <?php foreach ($this->items as $i => $row) : ?>
                 <?php $link = JRoute::_('index.php?option=com_attendancelist&view=feedback&id=' . $row->id); ?>
-                <?php if ($rowOpen) : $rowOpen = false; ?>
-                    <div class="row">
-                    <?php endif; ?>
-                    <div class="col-xs-6 col-md-4 col-lg-4">
+                <?php if ($rowOpen) : $rowOpen = false; ?><div class="row"><?php endif; ?>
+                    <div class="col-xs-4 col-md-4 col-lg-4">
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <h4><?php echo $row->name; ?></h4>
@@ -28,9 +26,7 @@ $rowOpen = false;
                             </div>
                         </div>
                     </div>
-                    <?php if ((bool) $i && (ceil(($i + 1) % 3) == 0)) : $rowOpen = true; ?>
-                    </div>
-                <?php endif; ?>
+                    <?php if ((bool) $i && (ceil(($i + 1) % 3) == 0)) : $rowOpen = true; ?></div><?php endif; ?>
             <?php endforeach; ?>
         <?php else: ?>
             <div class="col-xs-12 col-md-12 col-lg-12">

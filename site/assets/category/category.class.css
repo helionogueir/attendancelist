@@ -1,0 +1,11 @@
+
+.attendancelist-category-items {
+    height: 300px;
+    max-height: 300px;
+    min-height: 300px;
+    overflow: hidden;
+    padding-top: 10px;
+    overflow-y: scroll;
+    border-top: 1px solid silver;
+    border-bottom: 1px solid silver;
+}

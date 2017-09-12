@@ -15,6 +15,7 @@ class AttendanceListModelQuizes extends JModelItem {
         'position',
         'type',
         'question',
+        'obs',
         'created',
         'modified',
         'published'
