@@ -24,7 +24,6 @@
         <filename>attendancelist.php</filename>
         <filename>controller.php</filename>
         <folder>assets</folder>
-        <folder>language</folder>
         <folder>controllers</folder>
         <folder>views</folder>
         <folder>models</folder>

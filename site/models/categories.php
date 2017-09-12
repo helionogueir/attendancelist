@@ -3,17 +3,19 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Attendance List Model Quiz Alternatives
+ * Attendance List Model Categories
  * @author Helio Nogueira <helio.nogueir@gmail.com>
  * @version 2017.09.01
  */
-class AttendanceListModelQuizAlternatives extends JModelItem {
+class AttendanceListModelCategories extends JModelItem {
 
     private $_fields = Array(
         'id',
-        'quiz_id',
-        'position',
-        'alternative',
+        'attendancelist_id',
+        'code',
+        'parent',
+        'name',
+        'obs',
         'created',
         'modified',
         'published'
@@ -26,16 +28,22 @@ class AttendanceListModelQuizAlternatives extends JModelItem {
         parent::__construct($config);
     }
 
-    public function getAltenativesByQuizId($quiz_id) {
+    public function getCategoriesByParent($attendancelist_id, $parent = null) {
         $data = Array();
-        if (!empty($quiz_id)) {
+        $parent = (!empty($parent)) ? $parent : null;
+        if (!empty($attendancelist_id)) {
             $db = JFactory::getDbo();
             $query = $db->getQuery(true);
             $query->select(implode(",", $this->_fields))
-                    ->from($db->quoteName('#__attendancelist_quiz_alternative'));
+                    ->from($db->quoteName('#__attendancelist_category'));
             $query->where('published = 1');
-            $query->where("quiz_id = '{$quiz_id}'");
-            $orderCol = $this->state->get('list.ordering', 'position');
+            $query->where("attendancelist_id = '{$attendancelist_id}'");
+            if ((bool) $parent) {
+                $query->where("parent = '{$parent}'");
+            } else {
+                $query->where("(parent = '' OR parent is null OR parent = '0')");
+            }
+            $orderCol = $this->state->get('list.ordering', 'id');
             $orderDirn = $this->state->get('list.direction', 'asc');
             $query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
             $db->setQuery($query);
