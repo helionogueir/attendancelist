@@ -9,9 +9,7 @@
                 <th width="5%"><?php echo JText::_('COM_ATTENDANCELIST_FUNCTIONALITY_PUBLISHED'); ?></th>
             </tr>
         </thead>
-        <tfoot>
-            <tr><td colspan="2"><?php echo $this->pagination->getListFooter(); ?></td></tr>
-        </tfoot>
+
         <tbody>
             <?php if (!empty($this->items)) : ?>
                 <?php
@@ -27,6 +25,10 @@
                 <?php endforeach; ?>
             <?php endif; ?>
         </tbody>
+
+        <tfoot>
+            <tr><td colspan="2"><?php echo $this->pagination->getListFooter(); ?></td></tr>
+        </tfoot>
     </table>
     <input type="hidden" name="task" value=""/>
     <input type="hidden" name="boxchecked" value="0"/>
