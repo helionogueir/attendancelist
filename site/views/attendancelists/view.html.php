@@ -21,7 +21,7 @@ class AttendanceListViewAttendanceLists extends JViewLegacy {
 
     protected function setDocument() {
         $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::root(true) . '/components/com_attendancelist/assets/master.class.css');
+        $document->addStyleSheet(JURI::base(true) . '/components/com_attendancelist/assets/master.class.css');
         $document->setTitle(JText::_('COM_ATTENDANCELIST_ATTENDANCELISTS_TITLE'));
     }
 

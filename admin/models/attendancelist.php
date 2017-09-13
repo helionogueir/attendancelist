@@ -7,7 +7,7 @@ defined('_JEXEC') or die('Restricted access');
  * @author Helio Nogueira <helio.nogueir@gmail.com>
  * @version 2017.09.01
  */
-class AttendanceListModelAttendanceList extends JModelAdmin {
+class AttendanceListModelAttendanceList extends JModelItem {
 
     public function getTable($type = 'AttendanceList', $prefix = 'AttendanceListTable', $config = array()) {
         return JTable::getInstance($type, $prefix, $config);

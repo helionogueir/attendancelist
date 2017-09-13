@@ -7,7 +7,7 @@ defined('_JEXEC') or die('Restricted access');
  * @author William Douglas da Silva <williamds.douglas@gmail.com>
  * @version 2017.09.04
  */
-class AttendanceListModelCategory extends JModelAdmin {
+class AttendanceListModelCategory extends JModelItem {
 
     public function getTable($type = 'Category', $prefix = 'AttendanceListTable', $config = array()) {
         return JTable::getInstance($type, $prefix, $config);
@@ -15,10 +15,10 @@ class AttendanceListModelCategory extends JModelAdmin {
 
     public function getForm($data = array(), $loadData = true) {
         $form = $this->loadForm(
-            'com_attendancelist.category', 'category', array(
-                'control' => 'jform',
-                'load_data' => $loadData
-            )
+                'com_attendancelist.category', 'category', array(
+            'control' => 'jform',
+            'load_data' => $loadData
+                )
         );
         if (empty($form)) {
             return false;
@@ -28,7 +28,7 @@ class AttendanceListModelCategory extends JModelAdmin {
 
     protected function loadFormData() {
         $data = JFactory::getApplication()->getUserState(
-            'com_attendancelist.edit.category.data', array()
+                'com_attendancelist.edit.category.data', array()
         );
         if (empty($data)) {
             $data = $this->getItem();
