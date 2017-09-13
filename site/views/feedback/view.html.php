@@ -80,7 +80,7 @@ class AttendanceListViewFeedback extends JViewLegacy {
         $document->addScript(JURI::base(true) . '/components/com_attendancelist/assets/jquery/jquery.min.js');
         $document->addScript(JURI::base(true) . '/components/com_attendancelist/assets/category/category.class.js');
         $document->addScript(JURI::base(true) . '/components/com_attendancelist/assets/feedback/feedback.class.js');
-        $document->setTitle(JText::_('COM_ATTENDANCELIST_FEEDBACK_TITLE'));
+        $document->setTitle($this->attendancelist->name);
     }
 
 }

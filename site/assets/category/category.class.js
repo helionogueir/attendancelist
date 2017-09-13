@@ -1,52 +1,83 @@
 
 var com_attendancelist_category = new function () {
-    var classNameLevel = "attendancelist-level-";
-    var setContent = function (formObject, level, html) {
-        html = (undefined !== html) ? html : $("<p class='text-center'>...<p>");
-        $("." + classNameLevel + level + " .attendancelist-category-items", formObject).each(function () {
-            $(this).html(html);
-        });
-    }
-    this.cleanSetTimeOut = null;
+    var eventHandler = 'keypress keyup';
+    this.cleanSetTimeOut = new Object();
     this.prepare = function (formObject) {
-        $("[class*='" + classNameLevel + "']", formObject).each(function () {
-            var pattern = new RegExp('^(.*?)(' + classNameLevel + ')(\\d{1,})(.*?)$');
-            var level = $(this).prop("class").replace(pattern, "$3");
-            $("input#" + classNameLevel + level, formObject).each(function () {
-                $(this).on('click change keyup', function () {
-                    var value = $(this).val();
-                    setContent(formObject, level);
-                    window.clearTimeout(com_attendancelist_category.cleanSetTimeOut);
-                    com_attendancelist_category.cleanSetTimeOut = window.setTimeout(function () {
-                        com_attendancelist_category.html.filter(formObject, value, parseInt(level));
+        var selectors = new Array();
+        var selectorname = "attendancelist-level-panel-";
+        $("[class*='" + selectorname + "']", formObject).each(function () {
+            var pattern = new RegExp('^(.*?)(' + selectorname + ')(\\d{1,})(.*?)$');
+            var level = parseInt($(this).prop("class").replace(pattern, "$3"));
+            selectors[level] = new Object({
+                "content": $(".attendancelist-level-items", this),
+                "search": $("input#search-" + level, this)
+            });
+            prepareFilter(selectors, level, formObject);
+        });
+    };
+    var prepareFilter = function (selectors, level, formObject) {
+        if ((undefined !== selectors[level]) && (undefined !== selectors[level].search) && (undefined !== selectors[level].content)) {
+            selectors[level].search.each(function () {
+                $(this).on(eventHandler, function () {
+                    $("div", selectors[level].content).css("display", "none");
+                    $(".attendancelist-level-loading", selectors[level].content).remove();
+                    selectors[level].content.append("<p class='text-center attendancelist-level-loading'>...</p>");
+                    window.clearTimeout(com_attendancelist_category.cleanSetTimeOut[level]);
+                    com_attendancelist_category.cleanSetTimeOut[level] = window.setTimeout(function () {
+                        filterItems(formObject, selectors, level);
                     }, 700);
                 });
             });
-        });
+            prepareFilterParent(selectors, level);
+        }
     };
-    this.html = new function () {
-        this.filter = function (formObject, search, level) {
-            if ($(formObject).is("form") && (undefined !== search) && (undefined !== level)) {
-                var serialize = $(formObject).serialize();
-                serialize += "&search=" + search;
-                serialize += "&level=" + level;
-                jQuery.ajax({
-                    async: true,
-                    type: "post",
-                    dataType: "html",
-                    url: "/component/attendancelist/?view=category&task=filter",
-                    data: serialize,
-                    complete: function (event, XMLHttpRequest) {
-                        if (("success" == XMLHttpRequest) && (undefined != event.responseText)) {
-                            try {
-                                setContent(formObject, level, event.responseText);
-                            } catch (err) {
-                                console.log(err);
-                            }
+    var prepareFilterParent = function (selectors, levelcurrent) {
+        if ((selectors instanceof Object) && (selectors[levelcurrent] instanceof Object)) {
+            for (var level in selectors) {
+                if (level != levelcurrent) {
+                    selectors[level].search.each(function () {
+                        $(this).on(eventHandler, function () {
+                            selectors[level].search.trigger('keypress');
+                        });
+                    });
+                }
+            }
+        }
+    };
+    var filterItems = function (formObject, selectors, level) {
+        if ($(formObject).is("form") && (selectors instanceof Object) && (undefined !== level)) {
+            var serialize = $(formObject).serialize();
+            serialize += "&level=" + level;
+            console.log(serialize);
+            jQuery.ajax({
+                async: true,
+                type: "post",
+                dataType: "html",
+                url: "/component/attendancelist/?view=category&task=filter",
+                data: serialize,
+                complete: function (event, XMLHttpRequest) {
+                    if (("success" == XMLHttpRequest) && (undefined != event.responseText)) {
+                        try {
+                            selectors[level].content.html(event.responseText);
+                        } catch (err) {
+                            console.log(err);
                         }
                     }
-                });
+                }
+            });
+        }
+    };
+    var prepareCheckboxParent = function (selectors, levelcurrent) {
+        if ((selectors instanceof Object) && (selectors[levelcurrent] instanceof Object)) {
+            for (var level in selectors) {
+                if (level != levelcurrent) {
+                    selectors[level].search.each(function () {
+                        $(this).on(eventHandler, function () {
+                            selectors[level].search.trigger('keypress');
+                        });
+                    });
+                }
             }
-        };
+        }
     };
 };

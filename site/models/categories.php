@@ -28,19 +28,41 @@ class AttendanceListModelCategories extends JModelItem {
         parent::__construct($config);
     }
 
-    public function findCategoriesByNameAndParent($attendancelist_id, $search, $parent = '0') {
+    public function findCategoriesById(Array $id, Array $parent) {
         $data = Array();
-        $parent = (!empty($parent)) ? $parent : '0';
-        if (!empty($attendancelist_id) && !empty($search)) {
+        if (count($id) && count($parent)) {
+            $db = JFactory::getDbo();
+            $query = $db->getQuery(true);
+            $query->select(implode(",", $this->_fields))
+                    ->from($db->quoteName('#__attendancelist_category'));
+            $query->where('published = 1');
+            $query->where("id IN ('" . implode("','", $id) . "')");
+            $query->where("parent IN ('" . implode("','", $parent) . "')");
+            $orderCol = $this->state->get('list.ordering', 'name');
+            $orderDirn = $this->state->get('list.direction', 'asc');
+            $query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
+            $db->setQuery($query);
+            $data = $db->loadObjectList();
+        }
+        return $data;
+    }
+
+    public function findCategoriesByNameAndParent($attendancelist_id, $search, Array $parent, Array $ignoreId = Array()) {
+        $data = Array();
+        if (!empty($attendancelist_id) && !empty($search) && count($parent)) {
             $db = JFactory::getDbo();
             $query = $db->getQuery(true);
             $query->select(implode(",", $this->_fields))
                     ->from($db->quoteName('#__attendancelist_category'));
             $query->where('published = 1');
             $query->where("attendancelist_id = '{$attendancelist_id}'");
-            $query->where('name LIKE ' . $db->quote('%' . $search . '%'));
-            $query->where("parent = '{$parent}'");
-            $orderCol = $this->state->get('list.ordering', 'id');
+            $searchfield = $query->concatenate(Array("code", "' '", "name"));
+            $query->where("{$searchfield} LIKE " . $db->quote('%' . $search . '%'));
+            $query->where("parent IN ('" . implode("','", $parent) . "')");
+            if (count($ignoreId)) {
+                $query->where("id NOT IN ('" . implode("','", $ignoreId) . "')");
+            }
+            $orderCol = $this->state->get('list.ordering', 'name');
             $orderDirn = $this->state->get('list.direction', 'asc');
             $query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
             $db->setQuery($query);

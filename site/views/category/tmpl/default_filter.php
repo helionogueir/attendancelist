@@ -9,7 +9,12 @@ $rowOpen = false;
                 <div class="col-xs-6 col-md-6 col-lg-6">
                     <div class="checkbox">
                         <label class="attendancelist-category-item-label">
-                            <input type="checkbox" id="category-<?php echo $category->id; ?>" name="category[<?php echo $this->level; ?>][<?php echo $category->id; ?>]" value="1">
+                            <input
+                                type="checkbox"
+                                id="category-<?php echo $category->id; ?>"
+                                name="category[<?php echo $this->level; ?>][<?php echo $category->id; ?>]"
+                                <?php echo (in_array($category->id, $this->checked) ? "checked" : null); ?>
+                                value="1">
                             <span><?php echo $category->name; ?></span>
                             <small>(<?php echo $category->code; ?>)</small>
                             <p class="text-justify"><?php echo $category->obs; ?></p>
