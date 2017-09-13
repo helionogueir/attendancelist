@@ -1,6 +1,6 @@
 
 var com_attendancelist_category = new function () {
-    var eventHandler = 'keypress keyup';
+    var eventHandler = 'click keypress keyup';
     this.cleanSetTimeOut = new Object();
     this.prepare = function (formObject) {
         var selectors = new Array();
@@ -37,7 +37,7 @@ var com_attendancelist_category = new function () {
                 if (level != levelcurrent) {
                     selectors[level].search.each(function () {
                         $(this).on(eventHandler, function () {
-                            selectors[level].search.trigger('keypress');
+                            selectors[levelcurrent].search.trigger('keypress');
                         });
                     });
                 }
@@ -48,7 +48,6 @@ var com_attendancelist_category = new function () {
         if ($(formObject).is("form") && (selectors instanceof Object) && (undefined !== level)) {
             var serialize = $(formObject).serialize();
             serialize += "&level=" + level;
-            console.log(serialize);
             jQuery.ajax({
                 async: true,
                 type: "post",
@@ -59,6 +58,7 @@ var com_attendancelist_category = new function () {
                     if (("success" == XMLHttpRequest) && (undefined != event.responseText)) {
                         try {
                             selectors[level].content.html(event.responseText);
+                            prepareCheckboxParent(selectors, level);
                         } catch (err) {
                             console.log(err);
                         }
@@ -69,14 +69,12 @@ var com_attendancelist_category = new function () {
     };
     var prepareCheckboxParent = function (selectors, levelcurrent) {
         if ((selectors instanceof Object) && (selectors[levelcurrent] instanceof Object)) {
-            for (var level in selectors) {
-                if (level != levelcurrent) {
-                    selectors[level].search.each(function () {
-                        $(this).on(eventHandler, function () {
-                            selectors[level].search.trigger('keypress');
-                        });
+            for (var level = (levelcurrent - 1); level <= 0; level--) {
+                $("input.attendancelist-category-checkbox", selectors[level].content).each(function () {
+                    $(this).on(eventHandler, function () {
+                        selectors[levelcurrent].search.trigger('keypress');
                     });
-                }
+                });
             }
         }
     };

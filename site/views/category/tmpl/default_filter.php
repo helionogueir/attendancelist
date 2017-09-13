@@ -11,6 +11,7 @@ $rowOpen = false;
                         <label class="attendancelist-category-item-label">
                             <input
                                 type="checkbox"
+                                class="attendancelist-category-checkbox"
                                 id="category-<?php echo $category->id; ?>"
                                 name="category[<?php echo $this->level; ?>][<?php echo $category->id; ?>]"
                                 <?php echo (in_array($category->id, $this->checked) ? "checked" : null); ?>
