@@ -7,7 +7,7 @@ defined('_JEXEC') or die('Restricted access');
  * @author William Douglas da Silva <williamds.silva@gmail.com>
  * @version 2017.09.04
  */
-class AttendanceListViewUploadtarget extends JViewLegacy {
+class AttendanceListViewUploadTarget extends JViewLegacy {
 
     protected $form = null;
     public $retorno = null;
@@ -47,7 +47,7 @@ class AttendanceListViewUploadtarget extends JViewLegacy {
         $fileObjeto->setCsvControl(';');
 
         foreach ($fileObjeto as $row){
-            // flush();// Somente para acompanhar o processo de desenvolvimento
+            flush();// Somente para acompanhar o processo de desenvolvimento
 
             if($x == 0 || empty($row[0])){
                 $x++;
@@ -59,38 +59,54 @@ class AttendanceListViewUploadtarget extends JViewLegacy {
             $line->code = (!empty($row[0]) ? $row[0] : 'erro');
             $line->name = (!empty($row[1]) ? $row[1] : 'erro');
             $line->parent = (empty($row[2]) ? NULL : trim($row[2]));
-            $line->obs = (isset($row[3]) ? trim($row[3]) : NULL);
-            $line->published = (isset($row[4]) ? trim($row[4]) : 1);
+            $line->obs = (empty($row[3]) ? NULL : trim($row[3]));
+            $line->published = (isset($row[4])  ? trim($row[4]) : 1);
             if($line->code == 'erro' || $line->name == 'erro'){
                 exit("Codigo e Nome são obrigatorios. Linha: {$x}");
             }
             $this->importCSV($line);
 
-            $this->retorno .= "[ {$x} ] - Code: {$line->code}, Name: {$line->name}, Parent: {$line->parent}, Obs: {$line->obs}, Published: {$line->published}, {$line->retorno['status']}<br />";
-
-            //ob_flush();
+            echo "[ {$x} ] - Code: {$line->code}, Name: {$line->name}, Parent: {$line->parent}, Obs: {$line->obs}, Published: {$line->published}, {$line->retorno['status']}<br />";
+            //$this->retorno .= "[ {$x} ] - Code: {$line->code}, Name: {$line->name}, Parent: {$line->parent}, Obs: {$line->obs}, Published: {$line->published}, {$line->retorno['status']}<br />";
+            ob_flush();
         }
     }
 
     public function importCSV($line){
-        $model	= $this->getModel('upload');
+        $model	= $this->getModel('uploadtarget');
 
         $vetParent = array_map('trim',explode(',', $line->parent));
         if(count($vetParent) > 1) {
-            foreach ($vetParent as $parent) {// Percorre o PARENT e busca cada um dos nós
-                $line->parent = $parent;
-                $this->importCSV($line);
-            }
-        }else{
-            $retorno = $model->getRegistroLine($line);
-
-            if(isset($retorno['idParent']) && $retorno['idParent'] == 'erro'){
-                $line->retorno = $retorno;
+            $retorno = $this->getCategoryRecursivo($line, $vetParent);
+            if((!$retorno)){
+                $line->retorno['status'] = 'ERRO. Código informado não existe';
                 return;
             }
-            $line->retorno = $retorno;
         }
 
+        $retorno = $model->getRegistroLine($line);
+
+        if((!$retorno) || isset($retorno['id']) && $retorno['id'] == 'erro'){
+            $line->retorno = $retorno;
+            return;
+        }
+        $line->retorno = $retorno;
+    }
+
+    public function getCategoryRecursivo($line, $vetParent){
+        $model	= $this->getModel('uploadtarget');
+        $resultado = false;
+        foreach ($vetParent as $parent) {// Percorre o PARENT e busca cada um dos nós
+            $line->parent = $parent;
+            $resultado = $model->consultaCategoryRecursivo($line);
+            if($resultado) {
+                $line->idParent = $resultado->id;
+            }
+        }
+        if($resultado){
+            $line->parent = $line->idParent;
+        }
+        return $resultado;
     }
 
     protected function addToolBar() {

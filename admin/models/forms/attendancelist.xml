@@ -20,12 +20,6 @@
             size="255"
             class="inputbox"
             default="" />
-        <field 
-            name="list"
-            type="file"
-            label="COM_ATTENDANCELIST_LABEL_LIST"
-            description="COM_ATTENDANCELIST_LABEL_LIST_DESC"
-            size="10"
-            accept="text/csv" />
+
     </fieldset>
 </form>

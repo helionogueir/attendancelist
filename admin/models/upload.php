@@ -71,6 +71,21 @@ class AttendanceListModelUpload extends JModelAdmin {
         return $retorno;
     }
 
+    public function getattendancelist(){
+        $db = JFactory::getDbo();
+        $query = $db->getQuery(true);
+
+        $table = $db->quoteName('#__attendancelist');
+        $fields = $db->quoteName(['id', 'code', 'name', 'obs', 'published']);
+        $condition = " published = 1";
+        $query->select($fields)
+            ->from($table)
+            ->where($condition);
+        return $query;
+        //$db->setQuery($query)->execute();
+
+    }
+
     // Consulta a categoria PAI
     public function consultaPai($line){
         $db = JFactory::getDbo();
@@ -160,13 +175,6 @@ class AttendanceListModelUpload extends JModelAdmin {
                     $db->quote($dateTime),
                     1
                   ];
-
-//        echo("<pre>");
-//        echo(implode(',', $values));
-//        var_dump([$colums, $values]);
-//        print_r([$colums, $values]);
-//        exit("</pre>");
-
         $query
             ->insert($db->quoteName("#__attendancelist_category"))
             ->columns($colums)

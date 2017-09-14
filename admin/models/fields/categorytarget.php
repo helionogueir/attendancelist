@@ -11,7 +11,7 @@ JFormHelper::loadFieldClass('list');
  */
 class JFormFieldCategoryTarget extends JFormFieldList {
 
-    protected $type = 'Student';
+    protected $type = 'Categorytarget';
 
     protected function getOptions() {
         $db = JFactory::getDBO();

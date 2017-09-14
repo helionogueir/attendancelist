@@ -5,7 +5,7 @@
             name="id"
             type="hidden" />
         <field
-            name="list"
+            name="importfile"
             type="file"
             label="COM_ATTENDANCELIST_LABEL_LIST"
             description="COM_ATTENDANCELIST_LABEL_LIST_DESC"
