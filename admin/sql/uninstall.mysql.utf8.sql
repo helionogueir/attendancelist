@@ -4,8 +4,8 @@ DROP TABLE IF EXISTS `#__attendancelist`;
 /* Attendance List Category */
 DROP TABLE IF EXISTS `#__attendancelist_category`;
 
-/* Attendance List Category Label */
-DROP TABLE IF EXISTS `#__attendancelist_category_label`;
+/* Attendance List Step */
+DROP TABLE IF EXISTS `#__attendancelist_step`;
 
 /* Attendance List Category Target */
 DROP TABLE IF EXISTS `#__attendancelist_category_target`;

@@ -2,8 +2,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-jimport('joomla.application.component.modellist.quizes');
-
 /**
  * Attendance List View Feedback
  * @author Helio Nogueira <helio.nogueir@gmail.com>
@@ -12,75 +10,37 @@ jimport('joomla.application.component.modellist.quizes');
 class AttendanceListViewFeedback extends JViewLegacy {
 
     public function display($tpl = null) {
+        global $ATTENDANCELIST;
         $model = JModelLegacy::getInstance("AttendanceList", "AttendanceListModel");
-        $this->attendancelist = $model->getAttendancelistById(JRequest::getString('id'));
-        if (!(bool) $this->attendancelist || count($errors = $this->get('Errors'))) {
+        $this->attendancelist = $model->getAttendancelistById(JFactory::getApplication()->input->get('id'));
+        if (empty($this->attendancelist->name) || count($errors = $this->get('Errors'))) {
             JError::raiseError(500, implode('<br />', $errors));
             return false;
         }
         parent::display($tpl);
-        $this->setDocument();
-    }
-
-    public function addQuizes($attendancelist_id) {
-        if (defined('JPATH_COMPONENT')) {
-            $filename = JPATH_COMPONENT
-                    . DIRECTORY_SEPARATOR . "views"
-                    . DIRECTORY_SEPARATOR . "quiz"
-                    . DIRECTORY_SEPARATOR . "tmpl"
-                    . DIRECTORY_SEPARATOR . "template.php";
-            if (file_exists($filename)) {
-                $model = JModelLegacy::getInstance("Quizes", "AttendanceListModel");
-                $quizes = $model->getQuizesByAttendancelistId($attendancelist_id);
-                include($filename);
-                unset($quizes);
-            }
-        }
-    }
-
-    public function addQuizAlternatives(&$quiz) {
-        if (!empty($quiz->id) && !empty($quiz->type) && defined('JPATH_COMPONENT')) {
-            $filename = JPATH_COMPONENT
-                    . DIRECTORY_SEPARATOR . "views"
-                    . DIRECTORY_SEPARATOR . "quiz"
-                    . DIRECTORY_SEPARATOR . "tmpl"
-                    . DIRECTORY_SEPARATOR . "alternative"
-                    . DIRECTORY_SEPARATOR . "{$quiz->type}.php";
-            if (file_exists($filename)) {
-                $model = JModelLegacy::getInstance("QuizAlternatives", "AttendanceListModel");
-                $alternatives = $model->getAltenativesByQuizId($quiz->id);
-                include($filename);
-                unset($alternatives);
-            }
-        }
-    }
-
-    public function addLabels($attendancelist_id) {
-        if (defined('JPATH_COMPONENT')) {
-            $filename = JPATH_COMPONENT
-                    . DIRECTORY_SEPARATOR . "views"
-                    . DIRECTORY_SEPARATOR . "category"
-                    . DIRECTORY_SEPARATOR . "tmpl"
-                    . DIRECTORY_SEPARATOR . "template.php";
-            if (file_exists($filename)) {
-                $model = JModelLegacy::getInstance("CategoryLabels", "AttendanceListModel");
-                $labels = $model->getLabelByAttendancelistId($attendancelist_id);
-                include($filename);
-                unset($labels);
-            }
-            unset($filename);
-        }
-    }
-
-    protected function setDocument() {
         $document = JFactory::getDocument();
-        $document->addStyleSheet(JURI::base(true) . '/components/com_attendancelist/assets/master.class.css');
-        $document->addStyleSheet(JURI::base(true) . '/components/com_attendancelist/assets/feedback/feedback.class.css');
-        $document->addStyleSheet(JURI::base(true) . '/components/com_attendancelist/assets/category/category.class.css');
-        $document->addScript(JURI::base(true) . '/components/com_attendancelist/assets/jquery/jquery.min.js');
-        $document->addScript(JURI::base(true) . '/components/com_attendancelist/assets/category/category.class.js');
-        $document->addScript(JURI::base(true) . '/components/com_attendancelist/assets/feedback/feedback.class.js');
-        $document->setTitle($this->attendancelist->name);
+        $document->setTitle(JText::_($this->attendancelist->name));
+        $document->addStyleSheet("{$ATTENDANCELIST->http->view}/feedback/assets/style.css");
+        $document->addScript("{$ATTENDANCELIST->http->view}/feedback/assets/script.js");
+    }
+
+    public function render($attendancelist_id) {
+        $document = JFactory::getDocument();
+        $controller = JControllerLegacy::getInstance("");
+        $view = $controller->getView("steps", $document->getType());
+        $view->render($attendancelist_id);
+    }
+
+    public function renderStepBody(stdClass $step, stdClass $setting) {
+        $filename = JPATH_COMPONENT
+                . DIRECTORY_SEPARATOR . "views"
+                . DIRECTORY_SEPARATOR . "feedback"
+                . DIRECTORY_SEPARATOR . "tmpl"
+                . DIRECTORY_SEPARATOR . "step"
+                . DIRECTORY_SEPARATOR . "default.php";
+        if (file_exists($filename)) {
+            include($filename);
+        }
     }
 
 }
