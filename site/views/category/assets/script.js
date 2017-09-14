@@ -1,6 +1,92 @@
 
+var com_attendancelist_category = function (formObject) {
+
+    var cleanSetTimeOut = new Object();
+    var eventHandler = 'click keypress keyup';
+
+    this.prepare = function () {
+        var selectors = new Array();
+        var selectorname = "attendancelist-category-";
+        $("[class*='" + selectorname + "']", formObject).each(function () {
+            var pattern = new RegExp('^(.*?)(' + selectorname + ')(\\d{1,})(.*?)$');
+            var level = parseInt($(this).prop("class").replace(pattern, "$3"));
+            selectors[level] = new Object({
+                "content": $(".attendancelist-category-items", this),
+                "search": $("input#category-search-" + level, this)
+            });
+            prepareFilter(selectors, level, formObject);
+        });
+    };
+
+    function prepareFilter(selectors, level, formObject) {
+        if ((undefined !== selectors[level]) && (undefined !== selectors[level].search) && (undefined !== selectors[level].content)) {
+            selectors[level].search.each(function () {
+                $(this).on(eventHandler, function () {
+                    $("div", selectors[level].content).css("display", "none");
+                    $(".attendancelist-category-items-loading", selectors[level].content).remove();
+                    selectors[level].content.append("<p class='text-center attendancelist-category-items-loading'>...</p>");
+                    window.clearTimeout(cleanSetTimeOut[level]);
+                    cleanSetTimeOut[level] = window.setTimeout(function () {
+                        filterItems(formObject, selectors, level);
+                    }, 700);
+                });
+            });
+            prepareFilterParent(selectors, level);
+        }
+    }
+
+    function prepareFilterParent(selectors, levelcurrent) {
+        if ((selectors instanceof Object) && (selectors[levelcurrent] instanceof Object)) {
+            for (var level = (levelcurrent - 1); level >= 0; level--) {
+                selectors[level].search.each(function () {
+                    $(this).on(eventHandler, function () {
+                        selectors[levelcurrent].search.trigger('keypress');
+                    });
+                });
+            }
+        }
+    }
+
+    function filterItems(formObject, selectors, level) {
+        if ($(formObject).is("form") && (selectors instanceof Object) && (undefined !== level)) {
+            var serialize = $(formObject).serialize();
+            serialize += "&level=" + level;
+            jQuery.ajax({
+                async: true,
+                type: "post",
+                dataType: "html",
+                url: "/?option=com_attendancelist&view=category",
+                data: serialize,
+                complete: function (event, XMLHttpRequest) {
+                    if (("success" == XMLHttpRequest) && (undefined != event.responseText)) {
+                        try {
+                            selectors[level].content.html(event.responseText);
+                            prepareCheckboxParent(selectors, level);
+                        } catch (err) {
+                            console.log(err);
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    function prepareCheckboxParent(selectors, levelcurrent) {
+        if ((selectors instanceof Object) && (selectors[levelcurrent] instanceof Object)) {
+            for (var level = (levelcurrent - 1); level >= 0; level--) {
+                $("input.attendancelist-category-id", selectors[level].content).each(function () {
+                    $(this).on(eventHandler, function () {
+                        selectors[levelcurrent].search.trigger('keypress');
+                    });
+                });
+            }
+        }
+    }
+
+};
+
 $(document).ready(function () {
     $("form", this).each(function () {
-        (new com_attendancelist_form_mask(this)).prepare();
+        (new com_attendancelist_category(this)).prepare();
     });
 });

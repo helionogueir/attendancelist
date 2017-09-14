@@ -20,7 +20,7 @@
                     . DIRECTORY_SEPARATOR . "category"
                     . DIRECTORY_SEPARATOR . "tmpl"
                     . DIRECTORY_SEPARATOR . "step"
-                    . DIRECTORY_SEPARATOR . "notfound.php";
+                    . DIRECTORY_SEPARATOR . "items.php";
             include($filename);
             ?>
         </div>

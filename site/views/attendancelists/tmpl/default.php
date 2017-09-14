@@ -10,7 +10,7 @@ $rowOpen = false;
     <div class="row">
         <?php if (!empty($this->items)) : ?>
             <?php foreach ($this->items as $i => $row) : ?>
-                <?php $link = JRoute::_('index.php?option=com_attendancelist&view=feedback&id=' . $row->id); ?>
+                <?php $link = JRoute::_('?option=com_attendancelist&view=feedback&id=' . $row->id); ?>
                 <?php if ($rowOpen) : $rowOpen = false; ?><div class="row"><?php endif; ?>
                     <div class="col-xs-4 col-md-4 col-lg-4">
                         <div class="panel panel-default">

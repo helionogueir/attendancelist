@@ -1,8 +1,11 @@
 
-.form-group label {
-    font-weight: bold;
-}
-
-.form-group input[type="text"] {
-    width: 100%;
+.attendancelist-category .attendancelist-category-items {
+    height: 150px;
+    max-height: 150px;
+    min-height: 150px;
+    overflow: hidden;
+    padding-top: 10px;
+    overflow-y: scroll;
+    border-top: 1px solid silver;
+    border-bottom: 1px solid silver;
 }

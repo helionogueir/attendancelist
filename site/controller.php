@@ -26,6 +26,7 @@ class AttendanceListController extends JControllerLegacy {
         $document->addScript("{$ATTENDANCELIST->http->view}/assets/jquery/jquery.min.js");
         $document->addScript("{$ATTENDANCELIST->http->view}/assets/validate/mask.class.js");
         $document->addScript("{$ATTENDANCELIST->http->view}/assets/validate/validate.class.js");
+        $document->addScriptDeclaration("var attendancelist = new Object({ \"http\": { \"component\":\"{$ATTENDANCELIST->http->component}\" } });");
         parent::display($cachable, $urlparams);
     }
 
