@@ -8,9 +8,9 @@
 defined('_JEXEC') or die('Restricted access');
 $user = JFactory::getUser();
 if (empty($user->id)) {
-    JFactory::getApplication()->redirect("index.php");
+    JFactory::getApplication()->redirect();
 } else {
-    $controller = JControllerLegacy::getInstance('AttendanceList');
+    $controller = JControllerLegacy::getInstance("AttendanceList");
     $controller->execute(JFactory::getApplication()->input->get('task'));
     $controller->redirect();
 }

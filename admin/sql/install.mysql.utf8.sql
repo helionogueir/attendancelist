@@ -15,6 +15,27 @@ CREATE TABLE IF NOT EXISTS `#__attendancelist` (
 COLLATE='utf8_unicode_ci'
 ENGINE=InnoDB;
 
+/* Attendance List Step */
+DROP TABLE IF EXISTS `#__attendancelist_step`;
+CREATE TABLE IF NOT EXISTS `#__attendancelist_step` (
+	`id` BIGINT(18) NOT NULL AUTO_INCREMENT,
+	`attendancelist_id` BIGINT(18) NOT NULL,
+	`position` TINYINT(4) NOT NULL,
+	`title` VARCHAR(100) NOT NULL,
+	`obs` TEXT NULL,
+	`setting` TEXT NULL,
+	`created` DATETIME NOT NULL,
+	`modified` DATETIME NOT NULL,
+	`published` TINYINT(1) NOT NULL DEFAULT '1',
+    PRIMARY KEY (`id`),
+    INDEX `ind_attendancelist_step_attendancelist_id` (`attendancelist_id`),
+    INDEX `ind_attendancelist_step_position` (`position`),
+    UNIQUE INDEX `unq_attendancelist_step_position` (`attendancelist_id`, `position`),
+    INDEX `ind_attendancelist_step_published` (`published`)
+)
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;
+
 /* Attendance List Category */
 DROP TABLE IF EXISTS `#__attendancelist_category`;
 CREATE TABLE IF NOT EXISTS `#__attendancelist_category` (
@@ -33,25 +54,6 @@ CREATE TABLE IF NOT EXISTS `#__attendancelist_category` (
     UNIQUE INDEX `unq_attendancelist_category_code` (`parent`, `code`),
     INDEX `ind_attendancelist_category_parent` (`parent`),
     INDEX `ind_attendancelist_category_published` (`published`)
-)
-COLLATE='utf8_unicode_ci'
-ENGINE=InnoDB;
-
-/* Attendance List Category Label */
-DROP TABLE IF EXISTS `#__attendancelist_category_label`;
-CREATE TABLE IF NOT EXISTS `#__attendancelist_category_label` (
-	`id` BIGINT(18) NOT NULL AUTO_INCREMENT,
-	`attendancelist_id` BIGINT(18) NOT NULL,
-	`level` BIGINT(18) NULL DEFAULT NULL,
-	`title` VARCHAR(100) NOT NULL,
-	`obs` TEXT NULL,
-	`created` DATETIME NOT NULL,
-	`modified` DATETIME NOT NULL,
-	`published` TINYINT(1) NOT NULL DEFAULT '1',
-    PRIMARY KEY (`id`),
-    INDEX `ind_attendancelist_category_label_attendancelist_id` (`attendancelist_id`),
-    INDEX `ind_attendancelist_category_label_level` (`level`),
-    INDEX `ind_attendancelist_category_label_published` (`published`)
 )
 COLLATE='utf8_unicode_ci'
 ENGINE=InnoDB;
@@ -123,7 +125,6 @@ CREATE TABLE IF NOT EXISTS `#__attendancelist_feedback` (
 	`date` DATE NOT NULL,
 	`timestart` TIME NULL,
 	`timefinish` TIME NULL,
-	`title` VARCHAR(255) NULL,
 	`created` DATETIME NOT NULL,
 	`modified` DATETIME NOT NULL,
 	`published` TINYINT(1) NOT NULL DEFAULT '1',

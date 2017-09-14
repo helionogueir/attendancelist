@@ -3,9 +3,9 @@ defined('_JEXEC') or die('Restricted Access');
 $rowOpen = false;
 ?>
 <br>
-<div class="well attendancelist">
+<div class="well">
     <div class="page-header">
-        <h2 class="attendancelist-title"><?php echo JText::_('COM_ATTENDANCELIST_ATTENDANCELISTS_TITLE'); ?></h2>
+        <h3><?php echo JText::_('COM_ATTENDANCELIST_ATTENDANCELISTS_TITLE'); ?></h3>
     </div>
     <div class="row">
         <?php if (!empty($this->items)) : ?>
@@ -15,7 +15,7 @@ $rowOpen = false;
                     <div class="col-xs-4 col-md-4 col-lg-4">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <h4><?php echo $row->name; ?></h4>
+                                <h5><?php echo $row->name; ?></h5>
                                 <p class="text-justify"><?php echo $row->obs; ?></p>
                                 <hr>
                                 <p class="text-center">
