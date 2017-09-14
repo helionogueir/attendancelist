@@ -7,7 +7,7 @@ defined('_JEXEC') or die('Restricted access');
  * @author William Douglas da Silva <williamds.douglas@gmail.com>
  * @version 2017.09.04
  */
-class AttendanceListModelUpload extends JModelAdmin {
+class AttendanceListModelUploadtarget extends JModelAdmin {
 
     public function getTable($type = 'CategoryTarget', $prefix = 'AttendanceListTable', $config = array()) {
         return JTable::getInstance($type, $prefix, $config);
@@ -15,7 +15,7 @@ class AttendanceListModelUpload extends JModelAdmin {
 
     public function getForm($data = array(), $loadData = true) {
         $form = $this->loadForm(
-				'com_attendancelist.upload', 'upload', array(
+				'com_attendancelist.uploadtarget', 'uploadtarget', array(
                 'control' => 'jform',
                 'load_data' => $loadData
             )
@@ -28,7 +28,7 @@ class AttendanceListModelUpload extends JModelAdmin {
 
     protected function loadFormData() {
         $data = JFactory::getApplication()->getUserState(
-            'com_attendancelist.default.upload.data', array()
+            'com_attendancelist.default.uploadtarget.data', array()
         );
         if (empty($data)) {
             $data = $this->getItem();
@@ -39,25 +39,10 @@ class AttendanceListModelUpload extends JModelAdmin {
     public function getRegistroLine($line){
 
         $retorno['status'] = 'Nada foi feito';
-        $dadosPai = 0;
+        
         // Busca no banco de dados o registro da linha
 
-        if(empty($line->parent)) {// Nivel ZERO - PAI
-            $line->parent = 0;
-        }elseif(!isset($line->idParent)){
-            $linhaPai = new stdClass();
-            $linhaPai->code = $line->parent;
-            $linhaPai->parent = 0;
-            $dados = $this->consultaPai($linhaPai);
-            if(!$dados){
-                $retorno['status'] = 'ERRO. Código informado não existe';
-                $retorno['id'] = 'erro';
-                return $retorno;
-            }
-            $line->parent = $dados->id;
-        }
-
-        $dados = $this->consultaPai($line);
+        $dados = $this->consultaTarget($line);
 
         if(!$dados){
             $this->insertDados($line);
@@ -70,6 +55,28 @@ class AttendanceListModelUpload extends JModelAdmin {
 
         return $retorno;
     }
+    public function consultaTarget($line){
+        $db = JFactory::getDbo();
+        $query = $db->getQuery(true);
+
+        $retorno[0] = false;
+
+        $table = $db->quoteName('#__attendancelist_category_target');
+        $fields = $db->quoteName(['id', 'category_id', 'code', 'title', 'obs', 'published']);
+        $condition = " code = '{$line->code}' AND category_id = {$line->parent}";
+
+        $query->select($fields)
+            ->from($table)
+            ->where($condition);
+
+        $db->setQuery($query)->execute();
+        $numRows = $db->getNumRows();
+        if($numRows > 0){
+            $retorno = $db->loadObjectList();
+        }
+        return $retorno[0];
+    }
+
 
     public function getattendancelist(){
         $db = JFactory::getDbo();
@@ -87,7 +94,7 @@ class AttendanceListModelUpload extends JModelAdmin {
     }
 
     // Consulta a categoria PAI
-    public function consultaPai($line){
+    public function consultaCategory($line){
         $db = JFactory::getDbo();
         $query = $db->getQuery(true);
 
@@ -110,7 +117,7 @@ class AttendanceListModelUpload extends JModelAdmin {
     }
 
     // Consulta a categoria FILHO
-    public function consultaPaiRecursivo($line){
+    public function consultaCategoryRecursivo($line){
         if(!isset($line->idParent)) {
             $linhaPai = new stdClass();
             $linhaPai->code = $line->parent;
@@ -120,7 +127,7 @@ class AttendanceListModelUpload extends JModelAdmin {
             $linhaPai->code = $line->parent;
             $linhaPai->parent = $line->idParent;;
         }
-        return $this->consultaPai($linhaPai);
+        return $this->consultaCategory($linhaPai);
     }
 
     public function updateDados($line){
@@ -138,7 +145,7 @@ class AttendanceListModelUpload extends JModelAdmin {
         if(!empty($name)) {
 
             $fields = [
-                $db->quoteName('name') . '=' . $db->quote($name),
+                $db->quoteName('title') . '=' . $db->quote($name),
                 $db->quoteName('obs') . '=' . $db->quote($obs),
                 $db->quoteName('modified') . '=' . $db->quote($dateTime),
                 $db->quoteName('published') . '=' . $db->quote($published)];
@@ -146,7 +153,7 @@ class AttendanceListModelUpload extends JModelAdmin {
             $conditions = [$db->quoteName('id') . '=' . $line->id];
 
             $query
-                ->update($db->quoteName("#__attendancelist_category"))
+                ->update($db->quoteName("#__attendancelist_category_target"))
                 ->set($fields)
                 ->where($conditions);
 
@@ -165,18 +172,17 @@ class AttendanceListModelUpload extends JModelAdmin {
         $obs = isset($line->obs) ? $line->obs : '';
         $dateTime = date('Y-m-d H:i:s');
 
-        $colums = ['code', 'attendancelist_id', 'name', 'obs', 'parent', 'created', 'modified', 'published'];
-        $values = [ $db->quote($line->code),
-                    1,
+        $colums = ['category_id', 'code', 'title', 'obs', 'created', 'modified', 'published'];
+        $values = [ $db->quote($line->parent),
+                    $db->quote($line->code),
                     $db->quote($line->name),
                     $db->quote($obs),
-                    $db->quote($line->parent),
                     $db->quote($dateTime),
                     $db->quote($dateTime),
                     1
                   ];
         $query
-            ->insert($db->quoteName("#__attendancelist_category"))
+            ->insert($db->quoteName("#__attendancelist_category_target"))
             ->columns($colums)
             ->values(implode(',', $values));
 

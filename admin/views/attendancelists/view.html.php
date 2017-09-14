@@ -31,8 +31,8 @@ class AttendanceListViewAttendanceLists extends JViewLegacy {
     protected function addToolBar() {
         JToolBarHelper::title(JText::_('COM_ATTENDANCELIST_FUNCTIONALITY_LISTS'), 'attendancelist');
         JToolbarHelper::addNew('attendancelist.add');
-        JToolbarHelper::editList('attendancelist.edit');
-        JToolbarHelper::deleteList('', 'attendancelists.delete');
+//        JToolbarHelper::editList('attendancelist.edit');
+//        JToolbarHelper::deleteList('', 'attendancelists.delete');
     }
 
     protected function setDocument() {

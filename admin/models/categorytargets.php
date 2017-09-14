@@ -42,7 +42,7 @@ class AttendanceListModelCategoryTargets extends JModelList {
             ->from($db->quoteName('#__attendancelist_category_target', 'T'))
             ->join('INNER', $db->quoteName('#__attendancelist_category', 'C') . ' ON ' . $db->quoteName('T.category_id') . ' = ' . $db->quoteName('C.id'))
             ->where('(T.published IN (0,1))')
-            ->order('T.code ASC');
+            ->order('T.title ASC');
         return $query;
     }
 

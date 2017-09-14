@@ -7,11 +7,10 @@ defined('_JEXEC') or die('Restricted access');
  * @author William Douglas da Silva <williamds.silva@gmail.com>
  * @version 2017.09.04
  */
-class AttendanceListViewUpload extends JViewLegacy {
+class AttendanceListViewUploadTarget extends JViewLegacy {
 
     protected $form = null;
     public $retorno = null;
-    private $flag = false;
 
     public function display($tpl = null) {
         $files = JFactory::getApplication()->input->files;
@@ -69,17 +68,16 @@ class AttendanceListViewUpload extends JViewLegacy {
 
             echo "[ {$x} ] - Code: {$line->code}, Name: {$line->name}, Parent: {$line->parent}, Obs: {$line->obs}, Published: {$line->published}, {$line->retorno['status']}<br />";
             //$this->retorno .= "[ {$x} ] - Code: {$line->code}, Name: {$line->name}, Parent: {$line->parent}, Obs: {$line->obs}, Published: {$line->published}, {$line->retorno['status']}<br />";
-            $this->flag = false;
             ob_flush();
         }
     }
 
     public function importCSV($line){
-        $model	= $this->getModel('upload');
+        $model	= $this->getModel('uploadtarget');
 
         $vetParent = array_map('trim',explode(',', $line->parent));
         if(count($vetParent) > 1) {
-            $retorno = $this->getPaiRecursivo($line, $vetParent);
+            $retorno = $this->getCategoryRecursivo($line, $vetParent);
             if((!$retorno)){
                 $line->retorno['status'] = 'ERRO. Código informado não existe';
                 return;
@@ -95,12 +93,12 @@ class AttendanceListViewUpload extends JViewLegacy {
         $line->retorno = $retorno;
     }
 
-    public function getPaiRecursivo($line, $vetParent){
-        $model	= $this->getModel('upload');
+    public function getCategoryRecursivo($line, $vetParent){
+        $model	= $this->getModel('uploadtarget');
         $resultado = false;
         foreach ($vetParent as $parent) {// Percorre o PARENT e busca cada um dos nós
             $line->parent = $parent;
-            $resultado = $model->consultaPaiRecursivo($line);
+            $resultado = $model->consultaCategoryRecursivo($line);
             if($resultado) {
                 $line->idParent = $resultado->id;
             }
@@ -118,7 +116,7 @@ class AttendanceListViewUpload extends JViewLegacy {
         $title = JText::_('COM_ATTENDANCELIST_LABEL_UPLOAD');
 
         JToolbarHelper::title($title, 'upload');
-        JToolbarHelper::link('/administrator/index.php?option=com_attendancelist&view=categories', 'Voltar');
+        JToolbarHelper::link('/administrator/index.php?option=com_attendancelist&view=categorytargets', 'Voltar');
     }
 
     protected function setDocument() {

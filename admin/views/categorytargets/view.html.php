@@ -31,8 +31,8 @@ class AttendanceListViewCategoryTargets extends JViewLegacy {
     protected function addToolBar() {
         JToolBarHelper::title(JText::_('COM_ATTENDANCELIST_FUNCTIONALITY_CATEGORY_TARGET'), 'attendancelist');
         JToolbarHelper::addNew('categorytarget.add');
-        JToolbarHelper::editList('categorytarget.edit');
-        //JToolbarHelper::deleteList('', 'students.delete');
+        //JToolbarHelper::editList('categorytarget.edit');
+        JToolbarHelper::link('/administrator/index.php?option=com_attendancelist&view=uploadtarget&layout=default', 'Enviar CSV Alunos');
     }
 
     protected function setDocument() {
