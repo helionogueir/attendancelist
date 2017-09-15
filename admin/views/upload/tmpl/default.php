@@ -5,11 +5,12 @@ JHtml::_('behavior.formvalidator');
 
 <fieldset>
     <legend><?php echo JText::_('COM_ATTENDANCELIST_LABEL_LIST_DESC') . ' ' . JText::_('COM_ATTENDANCELIST_FUNCTIONALITY_CATEGORIES'); ?></legend>
-    <form action="<?php echo JRoute::_('index.php?option=com_attendancelist&view=upload'); ?>"
-             method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
+    <form method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
+        <!-- action="< ?php echo JRoute::_('index.php?option=com_attendancelist&view=upload'); ?>" -->
             <dl>
                 <dd>
                     <select name="attendancelist" id="attendancelist">
+                        <option value="-">Selecione a lista</option>
                         <?php
                         $model = $this->getModel('upload');
                         $dados = $model->getattendancelist();
@@ -19,8 +20,12 @@ JHtml::_('behavior.formvalidator');
                         ?>
                     </select>
                 </dd>
-                <dd><input type="file" name="importfile" id="importfile" /> <input type="submit" value="Upload" name="submit" /></dd>
+                <dd>
+                    <input type="file" name="importfile" id="importfile" />
+                    <input type="button" value="Upload" id="btnSubmit" name="btnSubmit" />
+                </dd>
             </dl>
         <?php echo JHtml::_('form.token'); ?>
     </form>
 </fieldset>
+<div id="saida" style="width: 90%;height: 200px;overflow: auto; "></div>

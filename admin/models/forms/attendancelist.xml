@@ -20,6 +20,12 @@
             size="255"
             class="inputbox"
             default="" />
-
+        <field
+            name="obs"
+            type="textarea"
+            label="COM_ATTENDANCELIST_LABEL_OBS"
+            description="COM_ATTENDANCELIST_LABEL_OBS_DESC"
+            class="inputbox"
+            default="" />
     </fieldset>
 </form>

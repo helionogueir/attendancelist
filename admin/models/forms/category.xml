@@ -7,6 +7,7 @@
         <field
             name="code"
             type="text"
+            readonly="true"
             label="COM_ATTENDANCELIST_LABEL_CODE"
             description="COM_ATTENDANCELIST_LABEL_CODE_DESC"
             size="45"
@@ -22,10 +23,9 @@
             default="" />
         <field
             name="obs"
-            type="text"
+            type="textarea"
             label="COM_ATTENDANCELIST_LABEL_OBS"
             description="COM_ATTENDANCELIST_LABEL_OBS_DESC"
-            size="255"
             class="inputbox"
             default="" />
     </fieldset>
