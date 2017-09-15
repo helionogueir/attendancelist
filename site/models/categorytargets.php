@@ -3,20 +3,18 @@
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Attendance List Model Quizes
+ * Attendance List Model Category Targets
  * @author Helio Nogueira <helio.nogueir@gmail.com>
  * @version 2017.09.01
  */
-class AttendanceListModelQuizes extends JModelItem {
+class AttendanceListModelCategoryTargets extends JModelItem {
 
     private $_fields = Array(
         'id',
-        'attendancelist_id',
-        'position',
-        'type',
-        'question',
+        'category_id',
+        'code',
+        'title',
         'obs',
-        'setting',
         'created',
         'modified',
         'published'
@@ -29,16 +27,20 @@ class AttendanceListModelQuizes extends JModelItem {
         parent::__construct($config);
     }
 
-    public function findAllByAttendancelistId($attendancelist_id) {
+    public function findAllBySearchAndCategories(Array $categories, $search = null) {
         $data = Array();
-        if (!empty($attendancelist_id)) {
+        if (count($categories)) {
             $db = JFactory::getDbo();
             $query = $db->getQuery(true);
             $query->select(implode(",", $this->_fields))
-                    ->from($db->quoteName('#__attendancelist_quiz'));
+                    ->from($db->quoteName('#__attendancelist_category_target'));
             $query->where('published = 1');
-            $query->where("attendancelist_id = '{$attendancelist_id}'");
-            $orderCol = $this->state->get('list.ordering', 'position');
+            $query->where("category_id IN ('" . implode("','", $categories) . "')");
+            if (!empty($search)) {
+                $searchfield = $query->concatenate(Array("code", "' '", "title"));
+                $query->where("{$searchfield} LIKE " . $db->quote('%' . $search . '%'));
+            }
+            $orderCol = $this->state->get('list.ordering', 'title');
             $orderDirn = $this->state->get('list.direction', 'asc');
             $query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
             $db->setQuery($query);

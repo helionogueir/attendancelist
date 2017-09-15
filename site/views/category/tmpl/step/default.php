@@ -9,7 +9,7 @@
                     id="category-search-<?php echo $setting->behavior->level ?>"
                     name="category[search][<?php echo $setting->behavior->level ?>]"
                     maxlength="255"
-                    class="form-control"
+                    class="form-control attendancelist-category-search"
                     placeholder="<?php echo JText::_('COM_ATTENDANCELIST_CATEGORY_LABEL_SEARCH_DESC'); ?>">
             </div>
         </div>
