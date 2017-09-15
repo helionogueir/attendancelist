@@ -11,7 +11,6 @@ class AttendanceListViewUpload extends JViewLegacy {
 
     protected $form = null;
     public $retorno = null;
-    private $flag = false;
 
     public function display($tpl = null) {
         $files = JFactory::getApplication()->input->files;
@@ -20,9 +19,10 @@ class AttendanceListViewUpload extends JViewLegacy {
         if( !empty($file['name']) ) {
             JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
+            $lista = $_POST['attendancelist'];
             $extensao = pathinfo($file['name'], PATHINFO_EXTENSION);
             if($extensao == 'csv'){
-                $this->import_file($file);
+                $this->import_file($file, $lista);
             }
         }
 
@@ -39,7 +39,7 @@ class AttendanceListViewUpload extends JViewLegacy {
         $this->setDocument();
     }
 
-    public function import_file($file)
+    public function import_file($file, $lista)
     {
         $x = 0;
         $this->retorno = '';
@@ -62,6 +62,7 @@ class AttendanceListViewUpload extends JViewLegacy {
             $line->parent = (empty($row[2]) ? NULL : trim($row[2]));
             $line->obs = (empty($row[3]) ? NULL : trim($row[3]));
             $line->published = (isset($row[4])  ? trim($row[4]) : 1);
+            $line->lista = $lista;
             if($line->code == 'erro' || $line->name == 'erro'){
                 exit("Codigo e Nome são obrigatorios. Linha: {$x}");
             }
@@ -69,7 +70,6 @@ class AttendanceListViewUpload extends JViewLegacy {
 
             echo "[ {$x} ] - Code: {$line->code}, Name: {$line->name}, Parent: {$line->parent}, Obs: {$line->obs}, Published: {$line->published}, {$line->retorno['status']}<br />";
             //$this->retorno .= "[ {$x} ] - Code: {$line->code}, Name: {$line->name}, Parent: {$line->parent}, Obs: {$line->obs}, Published: {$line->published}, {$line->retorno['status']}<br />";
-            $this->flag = false;
             ob_flush();
         }
     }
