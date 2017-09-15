@@ -34,7 +34,7 @@
 
         <tfoot>
             <tr>
-                <td colspan="2"><?php echo $this->pagination->getListFooter(); ?></td>
+                <td colspan="7"><?php echo $this->pagination->getListFooter(); ?></td>
             </tr>
         </tfoot>
     </table>

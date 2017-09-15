@@ -81,8 +81,8 @@ class AttendanceListModelUpload extends JModelAdmin {
         $query->select($fields)
             ->from($table)
             ->where($condition);
-        return $query;
-        //$db->setQuery($query)->execute();
+        $db->setQuery($query)->execute();
+        return $db->loadObjectList();
 
     }
 
@@ -167,7 +167,7 @@ class AttendanceListModelUpload extends JModelAdmin {
 
         $colums = ['code', 'attendancelist_id', 'name', 'obs', 'parent', 'created', 'modified', 'published'];
         $values = [ $db->quote($line->code),
-                    1,
+                    $db->quote($line->lista),
                     $db->quote($line->name),
                     $db->quote($obs),
                     $db->quote($line->parent),

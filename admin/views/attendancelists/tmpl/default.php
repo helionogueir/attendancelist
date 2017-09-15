@@ -29,7 +29,7 @@
         </tbody>
 
         <tfoot>
-            <tr><td colspan="2"><?php echo $this->pagination->getListFooter(); ?></td></tr>
+            <tr><td colspan="5"><?php echo $this->pagination->getListFooter(); ?></td></tr>
         </tfoot>
     </table>
     <input type="hidden" name="task" value=""/>
