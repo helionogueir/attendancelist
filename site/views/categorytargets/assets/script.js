@@ -1,5 +1,5 @@
 
-var com_attendancelist_categorytargets = function (formObject) {
+var com_attendancelist_categorytargets = function (formObject, level) {
 
     var delay = 500;
     var cleanSetTimeOut = null;
@@ -30,6 +30,7 @@ var com_attendancelist_categorytargets = function (formObject) {
 
     function filterItems(item, search) {
         var serialize = $(formObject).serialize();
+        serialize += "&level=" + level;
         jQuery.ajax({
             async: true,
             type: "post",

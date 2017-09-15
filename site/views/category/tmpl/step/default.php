@@ -10,7 +10,7 @@
                     name="category[search][<?php echo $setting->behavior->level ?>]"
                     maxlength="255"
                     class="form-control attendancelist-category-search"
-                    placeholder="<?php echo JText::_('COM_ATTENDANCELIST_CATEGORY_LABEL_SEARCH_DESC'); ?>">
+                    <?php if (!empty($setting->behavior->placeholder)): ?>placeholder="<?php echo $setting->behavior->placeholder; ?>"<?php endif; ?>>
             </div>
         </div>
         <div class="attendancelist-category-items">

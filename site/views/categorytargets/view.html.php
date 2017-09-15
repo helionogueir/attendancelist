@@ -26,11 +26,11 @@ class AttendanceListViewCategoryTargets extends JViewLegacy {
         jexit();
     }
 
-    public function findCategoryParents($category_id) {
+    public function findCategoryParents($category_id, $level) {
         $categories = Array();
         if (!empty($category_id)) {
             $model = JModelLegacy::getInstance("Categories", "AttendanceListModel");
-            $model->findAllParents($category_id, $categories);
+            $model->findAllParents($category_id, $categories, $level);
         }
         return $categories;
     }
@@ -51,7 +51,7 @@ class AttendanceListViewCategoryTargets extends JViewLegacy {
             $document->addScriptDeclaration("
 $(document).ready(function () {
     $(\"form\", this).each(function () {
-        (new com_attendancelist_categorytargets(this)).prepare();
+        (new com_attendancelist_categorytargets(this, '{$setting->behavior->level}')).prepare();
     });
 });");
         }
@@ -62,7 +62,8 @@ $(document).ready(function () {
         $request = $jinput->post->getArray(Array(
             "attendancelist_id" => "int",
             "category" => "array",
-            "categorytargets" => "array"
+            "categorytargets" => "array",
+            "level" => "int"
         ));
         return $request;
     }

@@ -26,7 +26,7 @@ class AttendanceListModelQuizAlternatives extends JModelItem {
         parent::__construct($config);
     }
 
-    public function findAllByQuizId($quiz_id) {
+    public function findAllByQuizId($quiz_id, Array $alternatives = Array()) {
         $data = Array();
         if (!empty($quiz_id)) {
             $db = JFactory::getDbo();
@@ -35,6 +35,9 @@ class AttendanceListModelQuizAlternatives extends JModelItem {
                     ->from($db->quoteName('#__attendancelist_quiz_alternative'));
             $query->where('published = 1');
             $query->where("quiz_id = '{$quiz_id}'");
+            if (count($alternatives)) {
+                $query->where("id IN ('" . implode("','", $alternatives) . "')");
+            }
             $orderCol = $this->state->get('list.ordering', 'position');
             $orderDirn = $this->state->get('list.direction', 'asc');
             $query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));

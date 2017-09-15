@@ -9,7 +9,7 @@
                 name="categorytargets[search]"
                 maxlength="255"
                 class="form-control"
-                placeholder="<?php echo JText::_('COM_ATTENDANCELIST_CATEGORY_LABEL_SEARCH_DESC'); ?>">
+                <?php if (!empty($setting->behavior->placeholder)): ?>placeholder="<?php echo $setting->behavior->placeholder; ?>"<?php endif; ?>>
         </div>
     </div>
     <div class="attendancelist-categorytargets-items attendancelist-form-require-checkbox" data-label="<?php echo $step->title; ?>">

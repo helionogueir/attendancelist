@@ -124,8 +124,8 @@ CREATE TABLE IF NOT EXISTS `#__attendancelist_feedback` (
 	`id` BIGINT(18) NOT NULL AUTO_INCREMENT,
 	`user_id` INT(11) NOT NULL,
 	`date` DATE NOT NULL,
-	`timestart` TIME NULL,
-	`timefinish` TIME NULL,
+	`timestart` TIME NOT NULL,
+	`timefinish` TIME NOT NULL,
 	`created` DATETIME NOT NULL,
 	`modified` DATETIME NOT NULL,
 	`published` TINYINT(1) NOT NULL DEFAULT '1',
@@ -158,11 +158,9 @@ CREATE TABLE IF NOT EXISTS `#__attendancelist_feedback_presence` (
 	`id` BIGINT(18) NOT NULL AUTO_INCREMENT,
 	`feedback_id` BIGINT(18) NOT NULL,
 	`target_id` BIGINT(18) NOT NULL,
-	`present` ENUM('0','1') NOT NULL,
     PRIMARY KEY (`id`),
     INDEX `ind_attendancelist_feedback_presence_feedback_id` (`feedback_id`),
-    INDEX `ind_attendancelist_feedback_presence_target_id` (`target_id`),
-    INDEX `ind_attendancelist_feedback_presence_present` (`present`)
+    INDEX `ind_attendancelist_feedback_presence_target_id` (`target_id`)
 )
 COLLATE='utf8_unicode_ci'
 ENGINE=InnoDB;

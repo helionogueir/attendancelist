@@ -26,8 +26,30 @@ class AttendanceListController extends JControllerLegacy {
         $document->addScript("{$ATTENDANCELIST->http->view}/assets/jquery/jquery.min.js");
         $document->addScript("{$ATTENDANCELIST->http->view}/assets/validate/mask.class.js");
         $document->addScript("{$ATTENDANCELIST->http->view}/assets/validate/validate.class.js");
-        $document->addScriptDeclaration("var attendancelist = new Object({ \"http\": { \"component\":\"{$ATTENDANCELIST->http->component}\" } });");
+        $document->addScriptDeclaration("
+var attendancelist = new Object({
+    \"http\": { \"component\":\"{$ATTENDANCELIST->http->component}\" },
+    \"message\": {
+        \"validate:response:invalid\": \"" . JText::_("COM_ATTENDANCELIST_VALIDATE_RESPONSE_INVALID") . "\"
+    }
+});");
         parent::display($cachable, $urlparams);
+    }
+
+    public function save() {
+        $valid = false;
+        $document = JFactory::getDocument();
+        if ($viewName = $this->input->get('view')) {
+            $view = $this->getView($viewName, $document->getType());
+            if (in_array("save", get_class_methods($view))) {
+                $valid = true;
+                $view->save();
+            }
+        }
+        if (!$valid) {
+            JError::raiseError(500, implode('<br />', $errors));
+            return false;
+        }
     }
 
 }

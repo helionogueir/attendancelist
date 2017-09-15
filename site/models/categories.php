@@ -28,7 +28,7 @@ class AttendanceListModelCategories extends JModelItem {
         parent::__construct($config);
     }
 
-    public function findAllParents($parent, Array &$categories) {
+    public function findAllParents($parent, Array &$categories, &$level = null) {
         if ((bool) $parent) {
             $db = JFactory::getDbo();
             $query = $db->getQuery(true);
@@ -41,7 +41,8 @@ class AttendanceListModelCategories extends JModelItem {
                 $row = end($rowSet);
                 if (!empty($row->id) && !isset($categories[$row->id])) {
                     $categories[$row->id] = $row;
-                    if (!empty($row->parent)) {
+                    if ((is_null($level) || $level) && !empty($row->parent)) {
+                        $level--;
                         $this->findAllParents($row->parent, $categories);
                     }
                 }

@@ -9,11 +9,11 @@
         <input type="hidden" name="attendancelist_id" value="<?php echo $this->attendancelist->id; ?>">
         <?php $this->render($this->attendancelist->id); ?>
         <hr>
-        <div class="buttons">
+        <div class="buttons text-center">
             <button
                 type="button"
                 class="btn btn-default btn-lg"
-                onclick="(new com_attendancelist_validate(this.form)).validate();"><?php echo JText::_('COM_ATTENDANCELIST_LABEL_SAVE'); ?></button>
+                onclick="(new com_attendancelist_feedback(this.form)).save();"><?php echo JText::_('COM_ATTENDANCELIST_LABEL_SAVE'); ?></button>
         </div>
     </form>
 </div>

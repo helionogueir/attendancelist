@@ -18,7 +18,7 @@ $rowOpen = false;
                                 value="1">
                             <h4 class="attendancelist-categorytargets-header"><?php echo $target->title; ?><small>(<?php echo $target->code; ?>)</small></h4>
                             <?php if (!empty($target->obs)): ?><small><?php echo $target->obs; ?></small><?php endif; ?>
-                            <?php foreach ($this->findCategoryParents($target->category_id) as $parent): ?>
+                            <?php foreach ($this->findCategoryParents($target->category_id, $request["level"]) as $parent): ?>
                                 <h5 class="attendancelist-categorytargets-header"><?php echo $parent->name; ?><small>(<?php echo $parent->code; ?>)</small></h5>
                             <?php endforeach; ?>
                         </label>
