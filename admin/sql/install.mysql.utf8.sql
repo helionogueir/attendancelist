@@ -87,6 +87,7 @@ CREATE TABLE IF NOT EXISTS `#__attendancelist_quiz` (
 	`type` VARCHAR(25) NOT NULL,
 	`question` TEXT NOT NULL,
 	`obs` TEXT NULL,
+	`setting` TEXT NULL,
 	`created` DATETIME NOT NULL,
 	`modified` DATETIME NOT NULL,
 	`published` TINYINT(1) NOT NULL DEFAULT '1',

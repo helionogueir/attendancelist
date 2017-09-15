@@ -1,0 +1,9 @@
+
+.attendancelist-quizes .attendancelist-quizes-label small {
+    margin-right: 5px;
+}
+
+.attendancelist-quizes textarea {
+    min-height: 100px;
+    resize: vertical;
+}

@@ -7,7 +7,7 @@
             id="feedback-date"
             name="feedback[date]"
             maxlength="10"
-            class="form-control attendancelist-form-date"
+            class="form-control attendancelist-form-require attendancelist-form-date"
             placeholder="<?php echo JText::_('COM_ATTENDANCELIST_FEEDBACK_LABEL_DATE_DESC'); ?>">
     </div>
     <div class="col-xs-6 col-md-3 col-lg-3">
@@ -17,7 +17,7 @@
             id="feedback-timestart"
             name="feedback[timestart]"
             maxlength="5"
-            class="form-control attendancelist-form-time-24"
+            class="form-control attendancelist-form-require attendancelist-form-time-24"
             placeholder="<?php echo JText::_('COM_ATTENDANCELIST_FEEDBACK_LABEL_STARTTIME_DESC'); ?>">
     </div>
     <div class="col-xs-6 col-md-3 col-lg-3">
@@ -27,7 +27,7 @@
             id="feedback-timefinish"
             name="feedback[timefinish]"
             maxlength="5"
-            class="form-control attendancelist-form-time-24"
+            class="form-control attendancelist-form-require attendancelist-form-time-24"
             placeholder="<?php echo JText::_('COM_ATTENDANCELIST_FEEDBACK_LABEL_FINISHTIME_DESC'); ?>">
     </div>
 </div>

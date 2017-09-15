@@ -16,9 +16,10 @@ class AttendanceListViewCategory extends JViewLegacy {
         $search = $request["category"]["search"][$request["level"]];
         $parent = $this->prepareParent($request);
         $checked = $this->prepareChecked($request);
+        $limit = $request["limit"];
         $model = JModelLegacy::getInstance("Categories", "AttendanceListModel");
-        if (strlen($search) >= 3) {
-            $categories = $model->findCategoriesByNameAndParent($attendancelist_id, $search, $parent, $checked);
+        if (empty($request["locked"]) || (strlen($search) >= 3)) {
+            $categories = $model->findCategoriesByNameAndParent($attendancelist_id, $search, $parent, $checked, $limit);
         }
         $categories = array_merge($model->findCategoriesByIdAndParent($checked, $parent), $categories);
         $filename = JPATH_COMPONENT
@@ -56,7 +57,7 @@ class AttendanceListViewCategory extends JViewLegacy {
             $document->addScriptDeclaration("
 $(document).ready(function () {
     $(\"form\", this).each(function () {
-        (new com_attendancelist_category(this, '{$setting->behavior->level}')).prepare();
+        (new com_attendancelist_category(this, '{$setting->behavior->level}', '{$setting->behavior->limit}', '{$setting->behavior->locked}')).prepare();
     });
 });");
         }
@@ -66,8 +67,10 @@ $(document).ready(function () {
         $jinput = JFactory::getApplication()->input;
         $request = $jinput->post->getArray(Array(
             "attendancelist_id" => "int",
+            "category" => "array",
             "level" => "int",
-            "category" => "array"
+            "limit" => "int",
+            "locked" => "bool",
         ));
         return $request;
     }
