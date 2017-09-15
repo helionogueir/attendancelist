@@ -21,7 +21,7 @@ var com_attendancelist_categorytargets = function (formObject) {
                             filterItems(item, search);
                         }, delay);
                     }).each(function () {
-                        prepareCategoriesSearch(this);
+                        prepareCategoriesFilter(this);
                     });
                 });
             });
@@ -42,7 +42,7 @@ var com_attendancelist_categorytargets = function (formObject) {
                         $(item).html(event.responseText);
                         window.clearTimeout(cleanSetTimeOut);
                         cleanSetTimeOut = window.setTimeout(function () {
-                            prepareCategoriesCheckbox(search);
+                            prepareCategoriesFilter(search);
                             prepareLabelColor(item);
                         }, delay);
                     } catch (err) {
@@ -53,21 +53,10 @@ var com_attendancelist_categorytargets = function (formObject) {
         });
     }
 
-    function prepareCategoriesSearch(search) {
+    function prepareCategoriesFilter(search) {
         if ($(search).is("input")) {
             var selector = $(".attendancelist-category", formObject);
-            $("input.attendancelist-category-search", selector).each(function () {
-                $(this).on(eventHandler, function () {
-                    $(search).trigger('click');
-                });
-            });
-        }
-    }
-
-    function prepareCategoriesCheckbox(search) {
-        if ($(search).is("input")) {
-            var selector = $(".attendancelist-category .attendancelist-category-items", formObject);
-            $("input.attendancelist-categorytargets-input", selector).each(function () {
+            $("input.attendancelist-category-search, input.attendancelist-category-input", selector).each(function () {
                 $(this).on(eventHandler, function () {
                     $(search).trigger('click');
                 });
