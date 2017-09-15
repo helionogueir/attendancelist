@@ -31,6 +31,15 @@ class AttendanceListViewCategory extends JViewLegacy {
         jexit();
     }
 
+    public function findCategoryParents($category) {
+        $categories = Array();
+        if (!empty($category->parent)) {
+            $model = JModelLegacy::getInstance("Categories", "AttendanceListModel");
+            $model->findAllParents($category->parent, $categories);
+        }
+        return $categories;
+    }
+
     public function renderStepBody(stdClass $step, stdClass $setting) {
         global $ATTENDANCELIST;
         $filename = JPATH_COMPONENT
@@ -44,6 +53,12 @@ class AttendanceListViewCategory extends JViewLegacy {
             $document = JFactory::getDocument();
             $document->addStyleSheet("{$ATTENDANCELIST->http->view}/category/assets/style.css");
             $document->addScript("{$ATTENDANCELIST->http->view}/category/assets/script.js");
+            $document->addScriptDeclaration("
+$(document).ready(function () {
+    $(\"form\", this).each(function () {
+        (new com_attendancelist_category(this, '{$setting->behavior->limit}')).prepare();
+    });
+});");
         }
     }
 

@@ -28,18 +28,25 @@ class AttendanceListModelCategories extends JModelItem {
         parent::__construct($config);
     }
 
-    public function findAllCategoryParentById($id, &$categories) {
-        if ((bool) $id) {
+    public function findAllParents($parent, Array &$categories) {
+        if ((bool) $parent) {
             $db = JFactory::getDbo();
             $query = $db->getQuery(true);
             $query->select(implode(",", $this->_fields))
                     ->from($db->quoteName('#__attendancelist_category'));
             $query->where('published = 1');
-            $query->where("id = " . $query->quote($id));
+            $query->where("id = " . $query->quote($parent));
             $db->setQuery($query);
-            $data = $db->loadObjectList();
+            if ($rowSet = $db->loadObjectList()) {
+                $row = end($rowSet);
+                if (!empty($row->id) && !isset($categories[$row->id])) {
+                    $categories[$row->id] = $row;
+                    if (!empty($row->parent)) {
+                        $this->findAllParents($row->parent, $categories);
+                    }
+                }
+            }
         }
-        return null;
     }
 
     public function findCategoriesByIdAndParent(Array $id, Array $parent) {

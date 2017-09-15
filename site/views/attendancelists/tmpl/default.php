@@ -16,8 +16,7 @@ $rowOpen = false;
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <h5><?php echo $row->name; ?></h5>
-                                <p class="text-justify"><?php echo $row->obs; ?></p>
-                                <hr>
+                                <?php if (!empty($row->obs)): ?><p class="text-justify"><?php echo $row->obs; ?></p><hr><?php endif; ?>
                                 <p class="text-center">
                                     <a class="btn btn-default" href="<?php echo $link; ?>" role="button">
                                         <?php echo JText::_('COM_ATTENDANCELIST_LABEL_ACCESS'); ?>

@@ -4,8 +4,44 @@
     max-height: 150px;
     min-height: 150px;
     overflow: hidden;
-    padding-top: 10px;
     overflow-y: scroll;
+    padding: 10px;
     border-top: 1px solid silver;
     border-bottom: 1px solid silver;
+}
+
+.attendancelist-category .attendancelist-category-items .attendancelist-category-item {
+    margin-bottom: 15px;
+}
+
+.attendancelist-category .attendancelist-category-items .attendancelist-category-item .attendancelist-category-label {
+    width: 100%;
+    padding: 10px 20px;
+    border-radius: 8px 24px;
+    background-color: #f0f0f0;
+}
+
+.attendancelist-category .attendancelist-category-items .attendancelist-category-item .attendancelist-category-label small {
+    color: gray;
+    margin-left: 5px;
+}
+
+.attendancelist-category .attendancelist-category-items .attendancelist-category-item .attendancelist-category-label .attendancelist-category-input {
+    display: none;
+}
+
+.attendancelist-category .attendancelist-category-items .attendancelist-category-item .attendancelist-category-label .attendancelist-category-header {
+    color: #535353;
+}
+
+.attendancelist-category .attendancelist-category-items .attendancelist-category-item .attendancelist-category-label-checked {
+    background-color: #535353;
+}
+
+.attendancelist-category .attendancelist-category-items .attendancelist-category-item .attendancelist-category-label-checked .attendancelist-category-header {
+    color: #f0f0f0;
+}
+
+.attendancelist-category .attendancelist-category-items .attendancelist-category-item .attendancelist-category-label-checked small {
+    color: #b0b0b0;
 }

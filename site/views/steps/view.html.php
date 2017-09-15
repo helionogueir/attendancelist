@@ -36,11 +36,11 @@ class AttendanceListViewSteps extends JViewLegacy {
     }
 
     private function prepareStepSetting(stdClass $step) {
-        $setting = null;
+        $setting = new stdClass();
         if (!empty($step->setting)) {
             $setting = json_decode($step->setting);
             if (json_last_error() != JSON_ERROR_NONE) {
-                $setting = null;
+                $setting = new stdClass();
             }
         }
         return $setting;

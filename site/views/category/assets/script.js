@@ -1,6 +1,6 @@
 
-var com_attendancelist_category = function (formObject) {
-
+var com_attendancelist_category = function (formObject, limit) {
+    alert(limit);
     var cleanSetTimeOut = new Object();
     var eventHandler = 'click keypress keyup';
 
@@ -62,6 +62,7 @@ var com_attendancelist_category = function (formObject) {
                         try {
                             selectors[level].content.html(event.responseText);
                             prepareCheckboxParent(selectors, level);
+                            prepareLabelColor(selectors[level].content);
                         } catch (err) {
                             console.log(err);
                         }
@@ -74,7 +75,7 @@ var com_attendancelist_category = function (formObject) {
     function prepareCheckboxParent(selectors, levelcurrent) {
         if ((selectors instanceof Object) && (selectors[levelcurrent] instanceof Object)) {
             for (var level = (levelcurrent - 1); level >= 0; level--) {
-                $("input.attendancelist-category-id", selectors[level].content).each(function () {
+                $("input.attendancelist-category-input", selectors[level].content).each(function () {
                     $(this).on(eventHandler, function () {
                         selectors[levelcurrent].search.trigger('keypress');
                     });
@@ -83,10 +84,17 @@ var com_attendancelist_category = function (formObject) {
         }
     }
 
-};
+    function prepareLabelColor(elementObject) {
+        $("label.attendancelist-category-label", elementObject).on('click keypress keyup', function () {
+            var label = this;
+            $(label).find("input.attendancelist-category-input").each(function () {
+                if ($(this).prop("checked")) {
+                    $(label).addClass("attendancelist-category-label-checked");
+                } else {
+                    $(label).removeClass("attendancelist-category-label-checked");
+                }
+            });
+        });
+    }
 
-$(document).ready(function () {
-    $("form", this).each(function () {
-        (new com_attendancelist_category(this)).prepare();
-    });
-});
+};
