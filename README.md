@@ -52,7 +52,7 @@ CODIGO	|	NOME				|	PARENT	|	OBS					|	PUBLISHED
     ADM; Administração;UNC; Curso de administração;1  
   
   
-###ALUNO (aluno.csv)
+### ALUNO (aluno.csv)
     CODIGO;NOME;PARENT;OBS;PUBLISHED  
     546889;Abadia Margarida;UND,ADM;Administração;UND;1  
     421159;Abiale Nascimento;UNC,DIR;Curso direito;UNC;1  
