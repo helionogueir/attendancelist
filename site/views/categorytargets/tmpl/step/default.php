@@ -12,7 +12,7 @@
                 placeholder="<?php echo JText::_('COM_ATTENDANCELIST_CATEGORY_LABEL_SEARCH_DESC'); ?>">
         </div>
     </div>
-    <div class="attendancelist-categorytargets-items">
+    <div class="attendancelist-categorytargets-items attendancelist-form-require-checkbox" data-label="<?php echo $step->title; ?>">
         <?php
         $filename = JPATH_COMPONENT
                 . DIRECTORY_SEPARATOR . "views"
