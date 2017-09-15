@@ -10,7 +10,6 @@ JHtml::_('behavior.formvalidator');
             <dl>
                 <dd>
                     <select name="attendancelist" id="attendancelist">
-                        <option>Selecione a lista</option>
                         <?php
                         $model = $this->getModel('upload');
                         $dados = $model->getattendancelist();
