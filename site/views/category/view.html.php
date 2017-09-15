@@ -56,7 +56,7 @@ class AttendanceListViewCategory extends JViewLegacy {
             $document->addScriptDeclaration("
 $(document).ready(function () {
     $(\"form\", this).each(function () {
-        (new com_attendancelist_category(this, '{$setting->behavior->limit}')).prepare();
+        (new com_attendancelist_category(this, '{$setting->behavior->level}')).prepare();
     });
 });");
         }
