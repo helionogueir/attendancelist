@@ -30,6 +30,10 @@
         <language tag="en-GB">en-GB/en-GB.com_attendancelist.ini</language>
         <language tag="pt-BR">pt-BR/pt-BR.com_attendancelist.ini</language>
     </languages>
+	<media destination="com_attendancelist" folder="media">
+		<filename>index.html</filename>
+		<folder>images</folder>
+	</media>
     <administration>
         <menu link="option=com_attendancelist">COM_ATTENDANCELIST_MENU</menu>
         <submenu>

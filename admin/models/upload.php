@@ -50,7 +50,7 @@ class AttendanceListModelUpload extends JModelAdmin {
             $linhaPai->parent = 0;
             $dados = $this->consultaPai($linhaPai);
             if(!$dados){
-                $retorno['status'] = 'ERRO. Código informado não existe';
+                $retorno['status'] = 'erro';
                 $retorno['id'] = 'erro';
                 return $retorno;
             }

@@ -23,6 +23,7 @@ class AttendanceListViewUploadTarget extends JViewLegacy {
             if($extensao == 'csv'){
                 $this->import_file($file);
             }
+            exit;
         }
 
         $this->form = $this->get('Form');
@@ -66,8 +67,9 @@ class AttendanceListViewUploadTarget extends JViewLegacy {
             }
             $this->importCSV($line);
 
-            echo "[ {$x} ] - Code: {$line->code}, Name: {$line->name}, Parent: {$line->parent}, Obs: {$line->obs}, Published: {$line->published}, {$line->retorno['status']}<br />";
-            //$this->retorno .= "[ {$x} ] - Code: {$line->code}, Name: {$line->name}, Parent: {$line->parent}, Obs: {$line->obs}, Published: {$line->published}, {$line->retorno['status']}<br />";
+            $dadosLinha = implode(';',$row);
+            echo "{$x}|{$line->retorno['status']}|{$dadosLinha}<br />";
+            //echo "[ {$x} ] - Code: {$line->code}, Name: {$line->name}, Parent: {$line->parent}, Obs: {$line->obs}, Published: {$line->published}, {$line->retorno['status']}<br />";
             ob_flush();
         }
     }
@@ -122,6 +124,7 @@ class AttendanceListViewUploadTarget extends JViewLegacy {
     protected function setDocument() {
         $document = JFactory::getDocument();
         $document->setTitle(JText::_('COM_ATTENDANCELIST_CATEGORIE_TARGET_CREATING'));
+        $document->addScript( "/administrator/components/com_attendancelist/views/uploadtarget/submitbutton.js" );
     }
 
 }

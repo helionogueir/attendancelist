@@ -24,6 +24,7 @@ class AttendanceListViewUpload extends JViewLegacy {
             if($extensao == 'csv'){
                 $this->import_file($file, $lista);
             }
+            exit;
         }
 
         $this->form = $this->get('Form');
@@ -68,7 +69,8 @@ class AttendanceListViewUpload extends JViewLegacy {
             }
             $this->importCSV($line);
 
-            echo "[ {$x} ] - Code: {$line->code}, Name: {$line->name}, Parent: {$line->parent}, Obs: {$line->obs}, Published: {$line->published}, {$line->retorno['status']}<br />";
+            $dadosLinha = implode(';',$row);
+            echo "{$x}|{$line->retorno['status']}|{$dadosLinha}<br />";
             //$this->retorno .= "[ {$x} ] - Code: {$line->code}, Name: {$line->name}, Parent: {$line->parent}, Obs: {$line->obs}, Published: {$line->published}, {$line->retorno['status']}<br />";
             ob_flush();
         }
@@ -81,7 +83,7 @@ class AttendanceListViewUpload extends JViewLegacy {
         if(count($vetParent) > 1) {
             $retorno = $this->getPaiRecursivo($line, $vetParent);
             if((!$retorno)){
-                $line->retorno['status'] = 'ERRO. Código informado não existe';
+                $line->retorno['status'] = 'erro';
                 return;
             }
         }
@@ -124,6 +126,7 @@ class AttendanceListViewUpload extends JViewLegacy {
     protected function setDocument() {
         $document = JFactory::getDocument();
         $document->setTitle(JText::_('COM_ATTENDANCELIST_CATEGORIE_TARGET_CREATING'));
+        $document->addScript( "/administrator/components/com_attendancelist/views/upload/submitbutton.js" );
     }
 
 }

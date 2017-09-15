@@ -30,7 +30,7 @@ class AttendanceListViewCategories extends JViewLegacy {
 
     protected function addToolBar() {
         JToolBarHelper::title(JText::_('COM_ATTENDANCELIST_FUNCTIONALITY_CATEGORIES'), 'attendancelist');
-        JToolbarHelper::addNew('category.add');
+        //JToolbarHelper::addNew('category.add');
         //JToolbarHelper::editList('category.edit');
         JToolbarHelper::link('/administrator/index.php?option=com_attendancelist&view=upload', 'Enviar CSV Categorias');
     }
